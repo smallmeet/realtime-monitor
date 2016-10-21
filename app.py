@@ -19,5 +19,9 @@ def insert(deviceId, data):
 def json():
     return 'json'
 
+@app.route('/static/<path:filename>')
+def loadStatic(filename):
+    return url_for('static', path=filename)
+
 if __name__ == '__main__':
     app.run(port=3000, debug=True)
