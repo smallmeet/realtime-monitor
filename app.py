@@ -1,6 +1,8 @@
 from flask import Flask, redirect, url_for
+from database import connection, load_config
 
 app = Flask(__name__)
+conn = connection.Connection(load_config.loadConfig('config.json'))
 
 @app.route('/')
 def index():
