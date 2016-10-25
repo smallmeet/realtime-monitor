@@ -20,9 +20,10 @@ BEGIN
     DELETE FROM graph WHERE graph.id=id;
 END$$
 
-CREATE PROCEDURE idb.toggle_graph(id INTEGER)
+CREATE PROCEDURE idb.toggle_graph(id INTEGER, `order` INTEGER)
 BEGIN
     UPDATE graph SET graph.duration=IF(graph.activated=1, NULL, 20) WHERE graph.id=id;
+    UPDATE graph SET graph.order=`order` WHERE graph.id=id;
     UPDATE graph SET graph.activated=IF(graph.activated=1, 0, 1) WHERE graph.id=id;
 END$$
 
