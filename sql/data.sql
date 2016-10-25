@@ -1,6 +1,7 @@
 DROP PROCEDURE IF EXISTS idb.insert_data;
 DROP PROCEDURE IF EXISTS idb.get_data_in_realtime;
-DROP PROCEDURE IF EXISTS idb.get_data_in_fixed_time;
+DROP PROCEDURE IF EXISTS idb.get_data_from;
+DROP PROCEDURE IF EXISTS idb.get_data_from_to;
 
 DELIMITER $$
 
