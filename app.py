@@ -15,7 +15,19 @@ def monitor():
 @app.route('/insert/<int:deviceId>/<path:data>')
 def insert(deviceId, data):
     # FIXME: check data validation
-    return 'insert'
+    # TODO: ues deviceId
+    data = data.split('/')
+    if len(data)%2 != 0:
+        return '404'
+    else:
+        cur = conn.getCursor()
+        cur.execute('SELECT NOW(6)')
+        now = cur.fetchone()[0]
+        for i in range(0, len(data), 2):
+            cur.execute('CALL insert_data({label_id}, {value}, \'{updated}\')'.format(label_id=data[i], value=data[i+1], updated=now))
+        conn.commit()
+        cur.close()
+        return '200'
 
 @app.route('/json')
 def json():

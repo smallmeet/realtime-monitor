@@ -6,3 +6,6 @@ class Connection:
 
     def getCursor(self):
         return self._conn.cursor()
+
+    def commit(self):
+        self._conn.commit()
