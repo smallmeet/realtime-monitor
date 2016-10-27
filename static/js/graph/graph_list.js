@@ -13,6 +13,14 @@ graphList = new function() {
         });
     }
 
+    this.getList = function() {
+        return this._graphes;
+    }
+
+    this.getKeys = function() {
+        return Object.keys(this._graphes);
+    }
+
     this.getGraph = function(graphId) {
         return this._graphes[graphId];
     }
