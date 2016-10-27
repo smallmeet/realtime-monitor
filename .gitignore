@@ -2,3 +2,4 @@
 *__pycache__/
 config.json
 /static/js/graph/plot/g*.js
+/_book
