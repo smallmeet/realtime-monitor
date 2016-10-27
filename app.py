@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
 from database import connection, load_config
 
 app = Flask(__name__)
@@ -10,7 +10,7 @@ def index():
 
 @app.route('/monitor')
 def monitor():
-    return 'monitor'
+    return render_template('monitor.html')
 
 @app.route('/insert/<int:deviceId>/<path:data>')
 def insert(deviceId, data):
