@@ -5,6 +5,46 @@
         <title>iSystems Lab. Realtime Monitor</title>
     </head>
     <body>
+        <div class="vertical container">
+            <header>
+                <h1>iSystems Lab.Realtime Monitor</h1>
+            </header>
+            <div class="horizontal container">
+                <div id="dashboard">
+        			<div class="plot" id="p1"></div>
+        		</div>
+        		<nav id="panel">
+        			<div id="graphes">
+        				<h3>Graphes</h3>
+        				<ol>
+        					<li class="graph on" id="g1">
+        						<ul>
+        							<li class="label" id="g1-l1"></li>
+        							<li class="label" id="g1-l2"></li>
+        						</ul>
+        					</li>
+        					<li class="graph off" id="g2">
+								<ul>
+									<li class="label" id="g2-l1"></li>
+								</ul>
+        					</li>
+        				</ol>
+        			</div>
+        			<div id="devices">
+        				<h3>Devices</h3>
+        				<ul>
+        					<li class="device" id="d1">
+        						<ul>
+        							<li class="label" id="d1-l1"></li>
+                                    <li class="label" id="d1-l2"></li>
+        						</ul>
+        					</li>
+        				</ul>
+        			</div>
+        		</nav>
+            </div>
+        </div>
+
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/static/js/call_ajax.js"></script>
         <script type="text/javascript" src="/static/js/graph/graph.js"></script>
