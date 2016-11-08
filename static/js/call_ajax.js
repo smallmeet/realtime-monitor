@@ -1,6 +1,7 @@
-function callAJAX(page) {
-    return $.ajax({
+function callAJAX(page, callback) {
+    $.ajax({
         type:'GET',
         url: page,
+        success: callback
     });
 }
