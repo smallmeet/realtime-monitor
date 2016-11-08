@@ -68,6 +68,16 @@ def json():
     cur.close()
     return str(result).replace('\'', '\"')
 
+@app.route('/plots')
+def loadDashboard():
+    cur = conn.getCursor()
+    cur.execute('SELECT graph.id, graph.order FROM graph WHERE graph.activated=1')
+    plots = []
+    for row in cur:
+        plots.insert(int(row[1]), int(row[0]))
+    cur.close()
+    return render_template('plots.html', plots=plots)
+
 @app.route('/static/<path:filename>')
 def loadStatic(filename):
     return url_for('static', path=filename)
