@@ -9,3 +9,9 @@ function loadGraphes() {
         $('#graphes').html(result);
     });
 }
+
+function loadDevices() {
+    callAJAX('/devices').done(function(result) {
+        $('#devices').html(result);
+    });
+}

@@ -1,5 +1,6 @@
 loadPlots();
 loadGraphes();
+loadDevices();
 
 setInterval(function() {
     graphList.update();

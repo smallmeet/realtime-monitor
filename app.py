@@ -97,6 +97,20 @@ def loadGraphes():
     cur.close()
     return render_template('graphes.html', activated=activated, inactivated=inactivated)
 
+@app.route('/devices')
+def loadDevices():
+    cur = conn.getCursor()
+    labels = conn.getCursor()
+    devices = []
+    cur.execute('SELECT device.id, device.name FROM device')
+    for row in cur:
+        devices.append([int(row[0]), row[1]])
+        labels.execute('SELECT label.id, label.name FROM label, includes WHERE includes.device_id={did} AND label.id=includes.label_id'.format(did=int(row[0])))
+        devices[-1].append([[int(l[0]), l[1]] for l in labels])
+    labels.close()
+    cur.close()
+    return render_template('devices.html', devices=devices)
+
 @app.route('/static/<path:filename>')
 def loadStatic(filename):
     return url_for('static', path=filename)
