@@ -1,11 +1,16 @@
 function Graph(id, data) {
-    this._id = id;
+    this._graphId = id;
+    this._plotId = id.replace('g', 'p');
     this._order = data.order;
     this._data = data.devices;
 }
 
-Graph.prototype.getId = function() {
-    return this._id;
+Graph.prototype.getGraphId = function() {
+    return this._graphId;
+}
+
+Graph.prototype.getPlotId = function() {
+    return this._plotId;
 }
 
 Graph.prototype.getOrder = function() {
