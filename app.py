@@ -62,8 +62,9 @@ def json():
             if deviceId not in result[graphId]['devices']:
                 result[graphId]['devices'][deviceId] = {}
             if labelId not in result[graphId]['devices'][deviceId]:
-                result[graphId]['devices'][deviceId][labelId] = []
-            result[graphId]['devices'][deviceId][labelId].append({'value':row[2], 'updated':str(row[3])})
+                result[graphId]['devices'][deviceId][labelId] = {'value':[], 'updated':[]}
+            result[graphId]['devices'][deviceId][labelId]['value'].append(row[2])
+            result[graphId]['devices'][deviceId][labelId]['updated'].append(str(row[3]))
 
     cur.close()
     return str(result).replace('\'', '\"')
