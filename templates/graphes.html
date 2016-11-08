@@ -1,0 +1,23 @@
+<h3>Graphes</h3>
+<ol>
+    {% for a in activated %}
+    <li class="graph on" id="g{{ a[0] }}">
+        {{ a[1] }} <span class="graph-id">#{{ a[0] }}</span>
+        <ul>
+            {% for l in a[2] %}
+            <li class="label" id="g{{ a[0] }}-l{{ l[0] }}">{{ l[1] }} <span class="label-id">#{{ l[0] }}</span></li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+    {% for i in inactivated %}
+    <li class="graph off" id="g{{ i[0] }}">
+        {{ i[1] }} <span class="graph-id">#{{ i[0] }}</span>
+        <ul>
+            {% for l in i[2] %}
+            <li class="label" id="g{{ i[0] }}-l{{ l[0] }}">{{ l[1] }} <span class="label-id">#{{ l[0] }}</span></li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ol>

@@ -3,3 +3,9 @@ function loadPlots() {
         $('#dashboard').html(result);
     });
 }
+
+function loadGraphes() {
+    callAJAX('/graphes').done(function(result) {
+        $('#graphes').html(result);
+    });
+}

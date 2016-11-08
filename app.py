@@ -78,6 +78,25 @@ def loadDashboard():
     cur.close()
     return render_template('plots.html', plots=plots)
 
+@app.route('/graphes')
+def loadGraphes():
+    cur = conn.getCursor()
+    labels = conn.getCursor()
+    activated = []
+    inactivated = []
+    cur.execute('SELECT graph.id, graph.name, graph.activated FROM graph ORDER BY graph.activated DESC, graph.order ASC')
+    for row in cur:
+        if int(row[2]) == 1: # activated
+            graphes = activated
+        else:
+            graphes = inactivated
+        graphes.append([int(row[0]), row[1]])
+        labels.execute('SELECT label.id, label.name FROM label, connects WHERE connects.graph_id={gid} AND label.id=connects.label_id'.format(gid=int(row[0])))
+        graphes[-1].append([[int(l[0]), l[1]] for l in labels])
+    labels.close()
+    cur.close()
+    return render_template('graphes.html', activated=activated, inactivated=inactivated)
+
 @app.route('/static/<path:filename>')
 def loadStatic(filename):
     return url_for('static', path=filename)
