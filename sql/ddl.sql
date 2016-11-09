@@ -16,7 +16,7 @@ CREATE TABLE idb.graph (
     `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `activated` INTEGER NOT NULL,
-    `order` INTEGER,
+    `ordering` INTEGER NOT NULL,
     `duration` INTEGER,
     `from` DATETIME(6),
     `to` DATETIME(6)
