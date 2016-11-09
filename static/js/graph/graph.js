@@ -1,6 +1,6 @@
 function Graph(id, data) {
     this._graphId = id;
-    this._plotId = id.replace('g', 'p');
+    this._plotId = '#' + id.replace('g', 'p');
     this._order = data.order;
     this._data = data.devices;
 }
