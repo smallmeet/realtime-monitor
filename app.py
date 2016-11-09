@@ -14,17 +14,30 @@ def monitor():
 
 @app.route('/insert/<int:deviceId>/<path:data>')
 def insert(deviceId, data):
-    # FIXME: check data validation
     # TODO: ues deviceId
+    def isFloat(number):
+        try:
+            float(number)
+            return True
+        except ValueError:
+            return False
+
     data = data.split('/')
     if len(data)%2 != 0:
         return '404'
     else:
+        pair = []
+        for i in range(0, len(data), 2):
+            if not data[i].isdigit() or not isFloat(data[i+1]):
+                print('Invalid data pair')
+                continue
+            else:
+                pair.append([data[i], data[i+1]])
         cur = conn.getCursor()
         cur.execute('SELECT NOW(6)')
         now = cur.fetchone()[0]
-        for i in range(0, len(data), 2):
-            cur.execute('CALL insert_data({label_id}, {value}, \'{updated}\')'.format(label_id=data[i], value=data[i+1], updated=now))
+        for i in range(0, len(pair)):
+            cur.execute('CALL insert_data({label_id}, {value}, \'{updated}\')'.format(label_id=pair[i][0], value=pair[1][i+1], updated=now))
         conn.commit()
         cur.close()
         return '200'
