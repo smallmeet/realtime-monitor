@@ -1,17 +1,11 @@
 function loadPlots() {
-    callAJAX('/plots', function(result) {
-        $('#dashboard').html(result);
-    });
+    $('#dashboard').load('/plots');
 }
 
 function loadGraphes() {
-    callAJAX('/graphes', function(result) {
-        $('#graphes').html(result);
-    });
+    $('#graphes').load('/graphes');
 }
 
 function loadDevices() {
-    callAJAX('/devices', function(result) {
-        $('#devices').html(result);
-    });
+    $('#devices').load('/devices');
 }
