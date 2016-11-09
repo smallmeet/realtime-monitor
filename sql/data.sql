@@ -22,7 +22,7 @@ BEGIN
         AND NOW(6) - INTERVAL duration SECOND < pair.updated;
 END$$
 
-CREATE PROCEDURE idb.get_data_from(graph_id INTEGER, `from` DATETIME(6))
+CREATE PROCEDURE idb.get_data_from(graph_id INTEGER, start DATETIME(6))
 BEGIN
     SELECT pair.device_id, pair.label_id, pair.value, pair.updated
     FROM (
@@ -31,10 +31,10 @@ BEGIN
         WHERE includes.label_id=data.label_id
     ) AS pair, connects
     WHERE pair.label_id IN (SELECT label_id FROM connects WHERE connects.graph_id=graph_id)
-        AND `from` < pair.updated;
+        AND start < pair.updated;
 END$$
 
-CREATE PROCEDURE idb.get_data_from_to(graph_id INTEGER, `from` DATETIME(6), `to` DATETIME(6))
+CREATE PROCEDURE idb.get_data_from_to(graph_id INTEGER, start DATETIME(6), finish DATETIME(6))
 BEGIN
     SELECT pair.device_id, pair.label_id, pair.value, pair.updated
     FROM (
@@ -43,8 +43,8 @@ BEGIN
         WHERE includes.label_id=data.label_id
     ) AS pair, connects
     WHERE pair.label_id IN (SELECT label_id FROM connects WHERE connects.graph_id=graph_id)
-        AND `from` < pair.updated
-        AND `to` > pair.updated;
+        AND start < pair.updated
+        AND finish > pair.updated;
 END$$
 
 DELIMITER ;

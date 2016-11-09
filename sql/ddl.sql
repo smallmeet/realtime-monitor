@@ -18,8 +18,8 @@ CREATE TABLE idb.graph (
     `activated` INTEGER NOT NULL,
     `ordering` INTEGER NOT NULL,
     `duration` INTEGER,
-    `from` DATETIME(6),
-    `to` DATETIME(6)
+    `start` DATETIME(6),
+    `finish` DATETIME(6)
 );
 
 CREATE TABLE idb.data (
