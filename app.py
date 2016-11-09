@@ -45,7 +45,7 @@ def insert(deviceId, data):
 @app.route('/json')
 def json():
     cur = conn.getCursor()
-    cur.execute('SELECT `id`, `duration`, `from`, `to`, `order` FROM graph WHERE `activated`=1')
+    cur.execute('SELECT graph.id, graph.ordering FROM graph WHERE graph.activated=1')
     graphes = []
     for row in cur:
         graphes.append(row)
@@ -56,18 +56,10 @@ def json():
 
         if graphId not in result:
             result[graphId] = {}
-            result[graphId]['order'] = graph[4]
+            result[graphId]['order'] = graph[1]
             result[graphId]['devices'] = {}
 
-        if graph[1] is None:
-            if graph[3] is None: # from
-                query = 'CALL get_data_from({graph_id}, {f})'.format(graph_id=graph[0], f=graph[2])
-            else: # to
-                query = 'CALL get_data_from_to({graph_id}, {f}, {t})'.format(graph_id=graph[0], f=graph[2], t=graph[3])
-        else: # realtime
-            query = 'CALL get_data_in_realtime({graph_id}, {duration})'.format(graph_id=graph[0], duration=graph[1])
-
-        cur.execute(query) # device_id, label_id, value, updated
+        cur.execute('CALL get_data({graph_id})'.format(graph_id=graph[0])) # device_id, label_id, value, updated
         for row in cur:
             deviceId = 'd' + str(row[0])
             labelId = 'l' + str(row[1])
@@ -85,7 +77,7 @@ def json():
 @app.route('/plots')
 def loadDashboard():
     cur = conn.getCursor()
-    cur.execute('SELECT graph.id, graph.order FROM graph WHERE graph.activated=1')
+    cur.execute('SELECT graph.id, graph.ordering FROM graph WHERE graph.activated=1')
     plots = []
     for row in cur:
         plots.insert(int(row[1]), int(row[0]))
@@ -98,7 +90,7 @@ def loadGraphes():
     labels = conn.getCursor()
     activated = []
     inactivated = []
-    cur.execute('SELECT graph.id, graph.name, graph.activated FROM graph ORDER BY graph.activated DESC, graph.order ASC')
+    cur.execute('SELECT graph.id, graph.name, graph.activated FROM graph ORDER BY graph.activated DESC, graph.ordering ASC')
     for row in cur:
         if int(row[2]) == 1: # activated
             graphes = activated
