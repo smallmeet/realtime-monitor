@@ -8,8 +8,10 @@ CREATE TABLE idb.device (
 );
 
 CREATE TABLE idb.label (
+    `device_id` INTEGER NOT NULL,
     `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `name` VARCHAR(255) NOT NULL
+    `name` VARCHAR(255) NOT NULL,
+    FOREIGN KEY (`device_id`) REFERENCES device(`id`) ON DELETE CASCADE
 );
 
 CREATE TABLE idb.graph (
@@ -26,13 +28,6 @@ CREATE TABLE idb.data (
     `label_id` INTEGER NOT NULL,
     `value` FLOAT NOT NULL,
     `updated` DATETIME(6) NOT NULL,
-    FOREIGN KEY (`label_id`) REFERENCES label(`id`) ON DELETE CASCADE
-);
-
-CREATE TABLE idb.includes (
-    `device_id` INTEGER NOT NULL,
-    `label_id` INTEGER NOT NULL,
-    FOREIGN KEY (`device_id`) REFERENCES device(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`label_id`) REFERENCES label(`id`) ON DELETE CASCADE
 );
 
