@@ -1,0 +1,10 @@
+{% macro device(id, name, labels) %}
+<li class="device" id="d{{ id }}">
+    {{ name }} <span class="device_id">#{{ id }}</span>
+    <ul>
+        {% for l in labels %}
+        <li class="label" id="d{{ id }}-l{{ l[0] }}">{{ l[1] }} <span class="label_id">#{{ l[0] }}</span></li>
+        {% endfor %}
+    </ul>
+</li>
+{% endmacro %}

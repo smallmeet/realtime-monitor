@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, render_template
 from database import connection, load_config
+from load_page_data import device_list
 
 app = Flask(__name__)
 conn = connection.Connection(load_config.loadConfig('config.json'))
@@ -10,7 +11,8 @@ def index():
 
 @app.route('/monitor')
 def monitor():
-    return render_template('monitor.html')
+    devices = device_list.getDeviceList(conn)
+    return render_template('monitor.html', devices=devices)
 
 @app.route('/insert/<int:deviceId>/<path:data>')
 def insert(deviceId, data):
@@ -102,20 +104,6 @@ def loadGraphes():
     labels.close()
     cur.close()
     return render_template('graphes.html', activated=activated, inactivated=inactivated)
-
-@app.route('/devices')
-def loadDevices():
-    cur = conn.getCursor()
-    labels = conn.getCursor()
-    devices = []
-    cur.execute('SELECT device.id, device.name FROM device')
-    for row in cur:
-        devices.append([int(row[0]), row[1]])
-        labels.execute('SELECT label.id, label.name FROM label, includes WHERE includes.device_id={did} AND label.id=includes.label_id'.format(did=int(row[0])))
-        devices[-1].append([[int(l[0]), l[1]] for l in labels])
-    labels.close()
-    cur.close()
-    return render_template('devices.html', devices=devices)
 
 @app.route('/static/<path:filename>')
 def loadStatic(filename):
