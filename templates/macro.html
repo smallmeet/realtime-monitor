@@ -30,3 +30,9 @@
 </li>
 {% endif %}
 {% endmacro %}
+
+{% macro plot(id, activated) %}
+{% if activated == 1 %}
+<div class="plot" id="p{{ id }}"><svg></svg></div>
+{% endif %}
+{% endmacro %}

@@ -1,5 +1,3 @@
-loadPlots();
-
 setInterval(function() {
     graphList.update();
     keys = graphList.getKeys();
