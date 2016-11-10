@@ -5,6 +5,8 @@ DROP PROCEDURE IF EXISTS idb.toggle_graph;
 DROP PROCEDURE IF EXISTS idb.set_duration;
 DROP PROCEDURE IF EXISTS idb.set_start_and_finish;
 
+DROP PROCEDURE IF EXISTS idb.get_graph_list;
+
 DELIMITER $$
 
 CREATE PROCEDURE idb.create_graph()
@@ -46,6 +48,15 @@ BEGIN
     UPDATE graph SET graph.duration=NULL WHERE graph.id=id;
     UPDATE graph SET graph.start=start WHERE graph.id=id;
     UPDATE graph SET graph.finish=finish WHERE graph.id=id;
+END$$
+
+CREATE PROCEDURE idb.get_graph_list()
+BEGIN
+    SELECT graph.id, graph.name, graph.activated, label.id, label.name
+    FROM graph
+        LEFT JOIN connects ON graph.id=connects.graph_id
+        LEFT JOIN label ON connects.label_id=label.id
+    ORDER BY graph.activated=1 DESC, graph.ordering ASC, graph.id ASC, label.id ASC;
 END$$
 
 DELIMITER ;

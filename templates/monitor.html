@@ -1,4 +1,4 @@
-{% from 'macro.html' import device %}
+{% from 'macro.html' import device, graph %}
 
 <!DOCTYPE html>
 <html>
@@ -14,7 +14,14 @@
             <div class="horizontal container">
                 <div id="dashboard"></div>
         		<nav id="panel">
-        			<div id="graphes"></div>
+        			<div id="graphes">
+        			    <h3>Graphes</h3>
+        			    <ol>
+                            {% for g in graphes %}
+                            {{ graph(g[0], g[1], g[2], g[3]) }}
+                            {% endfor %}
+        			    </ol>
+        			</div>
         			<div id="devices">
         			    <h3>Devices</h3>
                         <ul>

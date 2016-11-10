@@ -1,5 +1,4 @@
 loadPlots();
-loadGraphes();
 
 setInterval(function() {
     graphList.update();
