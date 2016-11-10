@@ -19,16 +19,16 @@ END$$
 
 CREATE PROCEDURE idb.delete_graph(id INTEGER)
 BEGIN
-    SELECT @graphOrder:=graph.ordering FROM graph WHERE graph.id=id;
+    SET @graphOrder = (SELECT graph.ordering FROM graph WHERE graph.id=id);
     DELETE FROM graph WHERE graph.id=id;
     UPDATE graph SET graph.ordering=IF(graph.activated=1, graph.ordering-1, graph.ordering) WHERE graph.ordering > @graphOrder;
 END$$
 
 CREATE PROCEDURE idb.toggle_graph(id INTEGER)
 BEGIN
-    SELECT @graphOrder:=graph.ordering FROM graph WHERE graph.id=id;
-    SELECT @activation:=graph.activated FROM graph WHERE graph.id=id;
-    SELECT @max:=MAX(ordering)+1 FROM graph;
+    SET @graphOrder = (SELECT graph.ordering FROM graph WHERE graph.id=id);
+    SET @activation = (SELECT graph.activated FROM graph WHERE graph.id=id);
+    SET @max = (SELECT MAX(graph.ordering)+1 FROM graph);
     UPDATE graph SET graph.ordering=IF(@activation=1, -1, @max) WHERE graph.id=id;
     UPDATE graph SET graph.ordering=IF(@activation=1, graph.ordering-1, graph.ordering) WHERE graph.ordering > @graphOrder;
     UPDATE graph SET graph.activated=IF(@activation=1, 0, 1) WHERE graph.id=id;
