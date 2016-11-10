@@ -1,5 +1,7 @@
 graphList = new function() {
     this._graphes = {};
+    this._cssPath = '/static/css/plot/';
+    this._jsPath = '/static/js/plot/';
 
     this.update = function() {
         callAJAX('/json', function(result) {
@@ -23,7 +25,7 @@ graphList = new function() {
         keys = Object.keys(result);
         for(i=0; i<keys.length; i++) {
             this._graphes[keys[i]] = new Graph(keys[i], result[keys[i]]);
-            $.getScript('/static/js/graph/plot/' + keys[i] + '.js');
+            $.getScript(this._jsPath + keys[i] + '.js');
         }
     }
 }
