@@ -37,31 +37,26 @@ def insert(deviceId, data):
 @app.route('/json')
 def json():
     cur = conn.getCursor()
-    cur.execute('SELECT graph.id, graph.ordering FROM graph WHERE graph.activated=1')
+    cur.execute('SELECT graph.id FROM graph WHERE graph.activated=1')
     graphes = []
     for row in cur:
         graphes.append(row)
 
     result = {}
     for graph in graphes:
-        graphId = 'g' + str(graph[0])
+        graphId = str(graph[0])
 
         if graphId not in result:
             result[graphId] = {}
-            result[graphId]['order'] = graph[1]
-            result[graphId]['devices'] = {}
 
-        cur.execute('CALL get_data({graph_id})'.format(graph_id=graph[0])) # device_id, label_id, value, updated
+        cur.execute('CALL get_data({graph_id})'.format(graph_id=graphId)) # label_id, value, updated
         for row in cur:
-            deviceId = 'd' + str(row[0])
-            labelId = 'l' + str(row[1])
+            labelId = 'l' + str(row[0])
 
-            if deviceId not in result[graphId]['devices']:
-                result[graphId]['devices'][deviceId] = {}
-            if labelId not in result[graphId]['devices'][deviceId]:
-                result[graphId]['devices'][deviceId][labelId] = {'value':[], 'updated':[]}
-            result[graphId]['devices'][deviceId][labelId]['value'].append(row[2])
-            result[graphId]['devices'][deviceId][labelId]['updated'].append(str(row[3]))
+            if labelId not in result[graphId]:
+                result[graphId][labelId] = {'value':[], 'updated':[]}
+            result[graphId][labelId]['value'].append(row[1])
+            result[graphId][labelId]['updated'].append(str(row[2]))
 
     cur.close()
     return str(result).replace('\'', '\"')

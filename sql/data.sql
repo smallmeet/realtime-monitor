@@ -10,7 +10,7 @@ END$$
 
 CREATE PROCEDURE idb.get_data(graph_id INTEGER)
 BEGIN
-    SELECT label.device_id, label.id, data.value, data.updated
+    SELECT label.id, data.value, data.updated
     FROM label, data, graph
     WHERE label.id IN (SELECT label_id FROM connects WHERE connects.graph_id=graph_id)
         AND graph_id=graph.id
