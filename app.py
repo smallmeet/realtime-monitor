@@ -29,7 +29,7 @@ def insert(deviceId, data):
     cur.execute('SELECT NOW(6)')
     now = cur.fetchone()[0]
     for i in range(0, len(pair)):
-        cur.execute('CALL insert_data({label_id}, {value}, \'{updated}\')'.format(label_id=pair[i][0], value=pair[1][i+1], updated=now))
+        cur.execute('CALL insert_data({labelId}, {value}, \'{updated}\')'.format(labelId=pair[i][0], value=pair[1][i+1], updated=now))
     conn.commit()
     cur.close()
     return '200'
@@ -49,7 +49,7 @@ def json():
         if graphId not in result:
             result[graphId] = {}
 
-        cur.execute('CALL get_data({graph_id})'.format(graph_id=graphId)) # label_id, value, updated
+        cur.execute('CALL get_data({graphId})'.format(graphId=graphId)) # label_id, value, updated
         for row in cur:
             labelId = 'l' + str(row[0])
 
