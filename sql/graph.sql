@@ -1,8 +1,10 @@
 DROP PROCEDURE IF EXISTS idb.create_graph;
 DROP PROCEDURE IF EXISTS idb.change_graph_name;
 DROP PROCEDURE IF EXISTS idb.delete_graph;
+
 DROP PROCEDURE IF EXISTS idb.toggle_graph;
 DROP PROCEDURE IF EXISTS idb.change_ordering;
+
 DROP PROCEDURE IF EXISTS idb.set_duration;
 DROP PROCEDURE IF EXISTS idb.set_start_and_finish;
 
@@ -22,18 +24,18 @@ END$$
 
 CREATE PROCEDURE idb.delete_graph(id INTEGER)
 BEGIN
-    SET @graphOrder = (SELECT graph.ordering FROM graph WHERE graph.id=id);
+    SET @graph_order = (SELECT graph.ordering FROM graph WHERE graph.id=id);
     DELETE FROM graph WHERE graph.id=id;
-    UPDATE graph SET graph.ordering=IF(graph.activated=1, graph.ordering-1, graph.ordering) WHERE graph.ordering > @graphOrder;
+    UPDATE graph SET graph.ordering=IF(graph.activated=1, graph.ordering-1, graph.ordering) WHERE graph.ordering > @graph_order;
 END$$
 
 CREATE PROCEDURE idb.toggle_graph(id INTEGER)
 BEGIN
-    SET @graphOrder = (SELECT graph.ordering FROM graph WHERE graph.id=id);
+    SET @graph_order = (SELECT graph.ordering FROM graph WHERE graph.id=id);
     SET @activation = (SELECT graph.activated FROM graph WHERE graph.id=id);
     SET @max = (SELECT MAX(graph.ordering)+1 FROM graph);
     UPDATE graph SET graph.ordering=IF(@activation=1, -1, @max) WHERE graph.id=id;
-    UPDATE graph SET graph.ordering=IF(@activation=1, graph.ordering-1, graph.ordering) WHERE graph.ordering > @graphOrder;
+    UPDATE graph SET graph.ordering=IF(@activation=1, graph.ordering-1, graph.ordering) WHERE graph.ordering > @graph_order;
     UPDATE graph SET graph.activated=IF(@activation=1, 0, 1) WHERE graph.id=id;
 END$$
 

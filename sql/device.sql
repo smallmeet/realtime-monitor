@@ -8,7 +8,7 @@ DELIMITER $$
 
 CREATE PROCEDURE idb.create_device()
 BEGIN
-    INSERT INTO device(`name`) VALUES('new device');
+    INSERT INTO device(name) VALUES('new device');
 END$$
 
 CREATE PROCEDURE idb.change_device_name(id INTEGER, name VARCHAR(255))
