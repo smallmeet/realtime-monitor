@@ -2,6 +2,7 @@ DROP PROCEDURE IF EXISTS idb.create_graph;
 DROP PROCEDURE IF EXISTS idb.change_graph_name;
 DROP PROCEDURE IF EXISTS idb.delete_graph;
 DROP PROCEDURE IF EXISTS idb.toggle_graph;
+DROP PROCEDURE IF EXISTS idb.change_ordering;
 DROP PROCEDURE IF EXISTS idb.set_duration;
 DROP PROCEDURE IF EXISTS idb.set_start_and_finish;
 
@@ -34,6 +35,18 @@ BEGIN
     UPDATE graph SET graph.ordering=IF(@activation=1, -1, @max) WHERE graph.id=id;
     UPDATE graph SET graph.ordering=IF(@activation=1, graph.ordering-1, graph.ordering) WHERE graph.ordering > @graphOrder;
     UPDATE graph SET graph.activated=IF(@activation=1, 0, 1) WHERE graph.id=id;
+END$$
+
+CREATE PROCEDURE idb.change_ordering(id INTEGER, ordering INTEGER)
+BEGIN
+    SET @origin = (SELECT graph.ordering FROM graph WHERE graph.id=id);
+    IF @origin < ordering THEN
+        UPDATE graph SET graph.ordering=graph.ordering-1 WHERE @origin < graph.ordering AND graph.ordering <= ordering;
+        UPDATE graph SET graph.ordering=ordering WHERE graph.id=id;
+    ELSEIF @origin > ordering THEN
+        UPDATE graph SET graph.ordering=graph.ordering+1 WHERE ordering <= graph.ordering AND graph.ordering < @origin;
+        UPDATE graph SET graph.ordering=ordering WHERE graph.id=id;
+    END IF;
 END$$
 
 CREATE PROCEDURE idb.set_duration(id INTEGER, duration INTEGER)
