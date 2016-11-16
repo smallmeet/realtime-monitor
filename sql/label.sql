@@ -6,8 +6,7 @@ DELIMITER $$
 
 CREATE PROCEDURE idb.create_label(device_id INTEGER)
 BEGIN
-    INSERT INTO label(`name`) VALUES('new label');
-    INSERT INTO includes VALUES(device_id, LAST_INSERT_ID());
+    INSERT INTO label(device_id, name) VALUES(device_id, 'new label');
 END$$
 
 CREATE PROCEDURE idb.change_label_name(id INTEGER, name VARCHAR(255))

@@ -1,5 +1,6 @@
 .env/
 *__pycache__/
 config.json
-/static/js/graph/plot/g*.js
+/static/js/plot/g*.js
+/static/css/plot/g*.css
 /_book

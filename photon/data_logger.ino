@@ -1,15 +1,9 @@
 #include "application.h"
 #include "HttpClient/HttpClient.h"
 
-/**
-* Declaring the variables.
-*/
 HttpClient http;
 
-// Headers currently need to be set at init, useful for API keys etc.
 http_header_t headers[] = {
-    //  { "Content-Type", "application/json" },
-    //  { "Accept" , "application/json" },
     { "Accept" , "*/*"},
     { NULL, NULL } // NOTE: Always terminate headers will NULL
 };
@@ -24,15 +18,12 @@ float values[LABEL_COUNT];
 
 void setup() {
     Serial.begin(9600);
+    request.hostname = "192.168.0.43";
 }
 
 void loop() {
     values[0] = analogRead(A0);
 
-    Serial.println();
-    Serial.println("Application>\tStart of Loop.");
-    // Request path and body can be set at runtime or at setup.
-    request.hostname = "192.168.0.43";
     request.port = 3000;
     request.path = "/insert/";
     request.path += DEVICE;

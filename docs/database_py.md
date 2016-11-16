@@ -1,4 +1,4 @@
-# Database Class in Python
+# Database Package
 
 Realtime Monitor의 pymysql 관련 라이브러리를 쉽게 사용하기 위하여 작성한 패키지이다. `connection.py` 파일과 `load_config.py` 파일로 이루어져 있다.
 

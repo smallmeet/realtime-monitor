@@ -1,0 +1,38 @@
+{% macro device(id, name, labels) %}
+<li class="device" id="d{{ id }}">
+    {{ name }} <span class="device_id">#{{ id }}</span>
+    <ul>
+        {% for l in labels %}
+        <li class="label" id="d{{ id }}-l{{ l[0] }}">{{ l[1] }} <span class="label_id">#{{ l[0] }}</span></li>
+        {% endfor %}
+    </ul>
+</li>
+{% endmacro %}
+
+{% macro graph(id, name, activated, labels) %}
+{% if activated == 1 %}
+<li class="graph on" id="g{{ id }}">
+    {{ name }} <span class="graph-id">#{{ id }}</span>
+    <ul>
+        {% for l in labels %}
+        <li class="label" id="g{{ id }}-l{{ l[0] }}">{{ l[1] }} <span class="label-id">#{{ l[0] }}</span></li>
+        {% endfor %}
+    </ul>
+</li>
+{% else %}
+<li class="graph off" id="g{{ id }}">
+    {{ name }} <span class="graph-id">#{{ id }}</span>
+    <ul>
+        {% for l in labels %}
+        <li class="label" id="g{{ id }}-l{{ l[0] }}">{{ l[1] }} <span class="label-id">#{{ l[0] }}</span></li>
+        {% endfor %}
+    </ul>
+</li>
+{% endif %}
+{% endmacro %}
+
+{% macro plot(id, activated) %}
+{% if activated == 1 %}
+<div class="plot" id="p{{ id }}"><svg></svg></div>
+{% endif %}
+{% endmacro %}

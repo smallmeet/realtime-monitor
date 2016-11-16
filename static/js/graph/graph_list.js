@@ -1,14 +1,12 @@
 graphList = new function() {
     this._graphes = {};
 
-    this.update = function() {
-        callAJAX('/json', function(result) {
-            graphList.JSONtoGraphList(JSON.parse(result));
-        });
+    this.getCSSPath = function() {
+        return '/static/css/plot/';
     }
 
-    this.getList = function() {
-        return this._graphes;
+    this.getJSPath = function() {
+        return '/static/js/plot/'
     }
 
     this.getKeys = function() {
@@ -19,11 +17,19 @@ graphList = new function() {
         return this._graphes[graphId];
     }
 
-    this.JSONtoGraphList = function(result) {
-        keys = Object.keys(result);
+    this.initList = function(json) {
+        keys = Object.keys(json);
         for(i=0; i<keys.length; i++) {
-            this._graphes[keys[i]] = new Graph(keys[i], result[keys[i]]);
-            $.getScript('/static/js/graph/plot/' + keys[i] + '.js');
+            this._graphes['g'+keys[i]] = new Graph(keys[i], json[keys[i]]);
+            this.getGraph('g'+keys[i]).loadCSS();
+            this.getGraph('g'+keys[i]).loadJS();
+        }
+    }
+
+    this.updateList = function(json) {
+        keys = Object.keys(json);
+        for(i=0; i<keys.length; i++) {
+            this.getGraph('g' + keys[i]).update(json[keys[i]]);
         }
     }
 }
