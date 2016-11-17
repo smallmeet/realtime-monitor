@@ -1,7 +1,7 @@
 from flask import Flask, redirect, url_for, render_template
-from database import connection, load_config
-from load_page_data import device_list, graph_list
-from validation import valid_path
+from realtime_monitor.database import connection, load_config
+from realtime_monitor.load_page_data import device_list, graph_list
+from realtime_monitor.validation import valid_path
 
 app = Flask(__name__)
 conn = connection.Connection(load_config.loadConfig('config.json'))
@@ -64,6 +64,3 @@ def json():
 @app.route('/static/<path:filename>')
 def loadStatic(filename):
     return url_for('static', path=filename)
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=True)

@@ -1,4 +1,4 @@
-from validation import check_number
+from realtime_monitor.validation import check_number
 
 def isValid(data):
     data = data.split('/')
