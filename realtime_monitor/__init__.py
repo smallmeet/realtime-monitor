@@ -1,10 +1,11 @@
 from flask import Flask, redirect, url_for, render_template
-from realtime_monitor.database import connection, load_config
+from realtime_monitor.database import connection
+import realtime_monitor.json as json
 from realtime_monitor.load_page_data import device_list, graph_list
 from realtime_monitor.validation import valid_path
 
 app = Flask(__name__)
-conn = connection.Connection(load_config.loadConfig('config.json'))
+conn = connection.Connection(json.loadJSON(open('config.json', 'r').readlines()))
 
 @app.route('/')
 def index():
@@ -35,7 +36,7 @@ def insert(deviceId, data):
     return '200'
 
 @app.route('/json')
-def json():
+def getData():
     cur = conn.getCursor()
     cur.execute('SELECT graph.id FROM graph WHERE graph.activated=1')
     graphes = []
@@ -59,7 +60,7 @@ def json():
             result[graphId][labelId]['updated'].append(str(row[2]))
 
     cur.close()
-    return str(result).replace('\'', '\"')
+    return json.dict2json(result)
 
 @app.route('/static/<path:filename>')
 def loadStatic(filename):
