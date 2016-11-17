@@ -1,11 +1,12 @@
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, url_for, render_template, redirect
 import realtime_monitor.connection as connection
 import realtime_monitor.json as json
-from realtime_monitor.load_page_data import device_list, graph_list
+import realtime_monitor.load_page as load_page
 from realtime_monitor.validation import valid_path
 
 app = Flask(__name__)
 conn = connection.BaseConn(json.loadJSON(open('config.json', 'r').readlines()))
+
 
 @app.route('/')
 def index():
@@ -13,8 +14,8 @@ def index():
 
 @app.route('/monitor')
 def monitor():
-    devices = device_list.getDeviceList(conn)
-    graphes = graph_list.getGraphList(conn)
+    devices = load_page.getDeviceList(conn)
+    graphes = load_page.getGraphList(conn)
     return render_template('monitor.html', devices=devices, graphes=graphes)
 
 @app.route('/insert/<int:deviceId>/<path:data>')
