@@ -1,11 +1,11 @@
 from flask import Flask, redirect, url_for, render_template
-from realtime_monitor.database import connection
+import realtime_monitor.connection as connection
 import realtime_monitor.json as json
 from realtime_monitor.load_page_data import device_list, graph_list
 from realtime_monitor.validation import valid_path
 
 app = Flask(__name__)
-conn = connection.Connection(json.loadJSON(open('config.json', 'r').readlines()))
+conn = connection.BaseConn(json.loadJSON(open('config.json', 'r').readlines()))
 
 @app.route('/')
 def index():
@@ -26,7 +26,7 @@ def insert(deviceId, data):
     pair = []
     for i in range(0, len(data), 2):
         pair.append([data[i], data[i+1]])
-    cur = conn.getCursor()
+    cur = conn.cursor()
     cur.execute('SELECT NOW(6)')
     now = cur.fetchone()[0]
     for i in range(0, len(pair)):
@@ -37,7 +37,7 @@ def insert(deviceId, data):
 
 @app.route('/json')
 def getData():
-    cur = conn.getCursor()
+    cur = conn.cursor()
     cur.execute('SELECT graph.id FROM graph WHERE graph.activated=1')
     graphes = []
     for row in cur:

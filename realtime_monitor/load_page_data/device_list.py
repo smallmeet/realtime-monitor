@@ -1,5 +1,5 @@
 def getDeviceList(conn):
-    cur = conn.getCursor()
+    cur = conn.cursor()
     devices = []
     cur.execute('CALL get_device_list()')
     for row in cur:

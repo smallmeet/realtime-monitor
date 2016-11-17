@@ -1,5 +1,5 @@
 def getGraphList(conn):
-    cur = conn.getCursor()
+    cur = conn.cursor()
     graphes = []
     cur.execute('CALL get_graph_list()')
     for row in cur:
