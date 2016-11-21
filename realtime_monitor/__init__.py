@@ -1,12 +1,15 @@
 from flask import Flask, url_for, render_template, redirect
-import realtime_monitor.connection as connection
+from realtime_monitor.models import BaseConn
 import realtime_monitor.json as json
 import realtime_monitor.load_page as load_page
 from realtime_monitor.validation import valid_path
 
-app = Flask(__name__)
-conn = connection.BaseConn(json.loadJSON(open('config.json', 'r').readlines()))
+from realtime_monitor.controllers import *
 
+app = Flask(__name__)
+config = json.loadJSON(open('config.json', 'r').readlines())
+
+app.register_blueprint(graphPages, url_prefix='/graph')
 
 @app.route('/')
 def index():
@@ -14,8 +17,10 @@ def index():
 
 @app.route('/monitor')
 def monitor():
+    conn = BaseConn(config)
     devices = load_page.getDeviceList(conn)
     graphes = load_page.getGraphList(conn)
+    conn.close()
     return render_template('monitor.html', devices=devices, graphes=graphes)
 
 @app.route('/insert/<int:deviceId>/<path:data>')
@@ -24,6 +29,7 @@ def insert(deviceId, data):
     if valid_path.isValid(data):
         return '404'
 
+    conn = BaseConn(config)
     pair = []
     for i in range(0, len(data), 2):
         pair.append([data[i], data[i+1]])
@@ -34,10 +40,12 @@ def insert(deviceId, data):
         cur.execute('CALL insert_data({labelId}, {value}, \'{updated}\')'.format(labelId=pair[i][0], value=pair[1][i+1], updated=now))
     conn.commit()
     cur.close()
+    conn.close()
     return '200'
 
 @app.route('/json')
 def getData():
+    conn = BaseConn(config)
     cur = conn.cursor()
     cur.execute('SELECT graph.id FROM graph WHERE graph.activated=1')
     graphes = []
@@ -61,6 +69,7 @@ def getData():
             result[graphId][labelId]['updated'].append(str(row[2]))
 
     cur.close()
+    conn.close()
     return json.dict2json(result)
 
 @app.route('/static/<path:filename>')
