@@ -26,18 +26,19 @@ def monitor():
 @app.route('/insert/<int:deviceId>/<path:data>')
 def insert(deviceId, data):
     # TODO: ues deviceId
-    if valid_path.isValid(data):
+    data = data.split('/')
+    if not valid_path.isValid(data):
         return '404'
 
     conn = BaseConn(config)
     pair = []
-    for i in range(0, len(data), 2):
-        pair.append([data[i], data[i+1]])
+    for i in range(len(data)//2):
+        pair.append([data[2*i], data[2*i+1]])
     cur = conn.cursor()
     cur.execute('SELECT NOW(6)')
     now = cur.fetchone()[0]
     for i in range(0, len(pair)):
-        cur.execute('CALL insert_data({labelId}, {value}, \'{updated}\')'.format(labelId=pair[i][0], value=pair[1][i+1], updated=now))
+        cur.execute('CALL insert_data({labelId}, {value}, \'{updated}\')'.format(labelId=pair[i][0], value=pair[i][1], updated=now))
     conn.commit()
     cur.close()
     conn.close()
