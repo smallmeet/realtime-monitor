@@ -1,7 +1,6 @@
 from realtime_monitor.validation import check_number
 
 def isValid(data):
-    data = data.split('/')
     if len(data)%2 != 0:
         return False
     for i in range(0, len(data), 2):

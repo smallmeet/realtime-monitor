@@ -21,7 +21,8 @@ CREATE TABLE idb.graph (
     ordering INTEGER NOT NULL,
     duration INTEGER,
     start DATETIME(6),
-    finish DATETIME(6)
+    finish DATETIME(6),
+    data_count INTEGER
 );
 
 CREATE TABLE idb.data (
