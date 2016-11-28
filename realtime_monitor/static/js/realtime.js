@@ -3,6 +3,7 @@ callAJAX('/json', function(result) {
 });
 
 setInterval(function() {
+    var i;
     callAJAX('/json', function(result) {
         graphList.updateList(JSON.parse(result));
     });

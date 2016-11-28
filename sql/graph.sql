@@ -8,6 +8,8 @@ DROP PROCEDURE IF EXISTS idb.change_ordering;
 DROP PROCEDURE IF EXISTS idb.set_duration;
 DROP PROCEDURE IF EXISTS idb.set_start_and_finish;
 
+DROP PROCEDURE IF EXISTS idb.set_data_count;
+
 DELIMITER $$
 
 CREATE PROCEDURE idb.create_graph()
@@ -54,6 +56,7 @@ BEGIN
     UPDATE graph SET graph.duration=duration WHERE graph.id=id;
     UPDATE graph SET graph.start=NULL WHERE graph.id=id;
     UPDATE graph SET graph.finish=NULL WHERE graph.id=id;
+    UPDATE graph SET graph.data_count=NULL WHERE graph.id=id;
 END$$
 
 CREATE PROCEDURE idb.set_start_and_finish(id INTEGER, start DATETIME(6), finish DATETIME(6))
@@ -61,6 +64,15 @@ BEGIN
     UPDATE graph SET graph.duration=NULL WHERE graph.id=id;
     UPDATE graph SET graph.start=start WHERE graph.id=id;
     UPDATE graph SET graph.finish=finish WHERE graph.id=id;
+    UPDATE graph SET graph.data_count=NULL WHERE graph.id=id;
+END$$
+
+CREATE PROCEDURE idb.set_data_count(id INTEGER, data_count INTEGER)
+BEGIN
+    UPDATE graph SET graph.duration=NULL WHERE graph.id=id;
+    UPDATE graph SET graph.start=NULL WHERE graph.id=id;
+    UPDATE graph SET graph.finish=NULL WHERE graph.id=id;
+    UPDATE graph SET graph.data_count=data_count WHERE graph.id=id;
 END$$
 
 DELIMITER ;
