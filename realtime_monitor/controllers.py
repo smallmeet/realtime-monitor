@@ -21,4 +21,7 @@ def changeGraphName(graphId, name):
 
 @graphPages.route('/delete/<int:graphId>')
 def deleteGraph(graphId):
-    return 'delete'
+    graph = Graph(config)
+    deletedGraph = graph.delete(graphId)
+    graph.close()
+    return json.dict2json(deletedGraph)

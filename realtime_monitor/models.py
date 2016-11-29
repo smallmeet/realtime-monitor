@@ -21,8 +21,13 @@ class Graph(BaseConn):
     def changeName(self, graphId, name):
         cur = self.cursor()
         cur.execute('CALL change_graph_name({graphId}, \'{name}\')'.format(graphId=graphId, name=name))
-        cur.execute('SELECT graph.id, graph.name FROM graph WHERE graph.id={graphId}'.format(graphId=graphId))
-        row = cur.fetchone()
         self.commit()
         cur.close()
-        return {'id':row[0], 'name':row[1]}
+        return {'id':graphId, 'name':name}
+
+    def delete(self, graphId):
+        cur = self.cursor()
+        cur.execute('CALL delete_graph({graphId})'.format(graphId=graphId))
+        self.commit()
+        cur.close()
+        return {'id':graphId}
