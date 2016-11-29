@@ -11,6 +11,6 @@ def index():
 def monitor():
     conn = BaseConn(config)
     devices = load_page.getDeviceList(conn)
-    graphes = load_page.getGraphList(conn)
+    graphs = load_page.getGraphList(conn)
     conn.close()
-    return render_template('monitor.html', devices=devices, graphes=graphes)
+    return render_template('monitor.html', devices=devices, graphs=graphs)

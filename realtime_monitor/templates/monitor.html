@@ -13,7 +13,7 @@
             </header>
             <div class="horizontal container">
                 <div id="dashboard">
-                    {% for p in graphes %}
+                    {% for p in graphs %}
                     {{ plot(p[0], p[2]) }}
                     {% endfor %}
                 </div>
@@ -21,7 +21,7 @@
         			<div id="graphes">
         			    <h3>Graphes</h3>
         			    <ol>
-                            {% for g in graphes %}
+                            {% for g in graphs %}
                             {{ graph(g[0], g[1], g[2], g[3]) }}
                             {% endfor %}
         			    </ol>

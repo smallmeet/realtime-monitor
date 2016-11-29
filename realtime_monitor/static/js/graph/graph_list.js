@@ -1,5 +1,5 @@
 graphList = new function() {
-    this._graphes = {};
+    this._graphs = {};
 
     this.getCSSPath = function() {
         return '/static/css/plot/';
@@ -10,17 +10,17 @@ graphList = new function() {
     }
 
     this.getKeys = function() {
-        return Object.keys(this._graphes);
+        return Object.keys(this._graphs);
     }
 
     this.getGraph = function(graphId) {
-        return this._graphes[graphId];
+        return this._graphs[graphId];
     }
 
     this.initList = function(json) {
         keys = Object.keys(json);
         for(i=0; i<keys.length; i++) {
-            this._graphes['g'+keys[i]] = new Graph(keys[i], json[keys[i]]);
+            this._graphs['g'+keys[i]] = new Graph(keys[i], json[keys[i]]);
             this.getGraph('g'+keys[i]).loadCSS();
             this.getGraph('g'+keys[i]).loadJS();
         }

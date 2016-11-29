@@ -36,12 +36,12 @@ def getData():
     conn = BaseConn(config)
     cur = conn.cursor()
     cur.execute('SELECT graph.id FROM graph WHERE graph.activated=1')
-    graphes = []
+    graphs = []
     for row in cur:
-        graphes.append(row)
+        graphs.append(row)
 
     result = {}
-    for graph in graphes:
+    for graph in graphs:
         graphId = str(graph[0])
 
         if graphId not in result:
