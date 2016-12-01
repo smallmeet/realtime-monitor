@@ -7,8 +7,10 @@ DROP PROCEDURE IF EXISTS idb.change_ordering;
 
 DROP PROCEDURE IF EXISTS idb.set_duration;
 DROP PROCEDURE IF EXISTS idb.set_start_and_finish;
-
 DROP PROCEDURE IF EXISTS idb.set_data_count;
+
+DROP PROCEDURE IF EXISTS idb.attach_label;
+DROP PROCEDURE IF EXISTS idb.detach_label;
 
 DELIMITER $$
 
@@ -73,6 +75,16 @@ BEGIN
     UPDATE graph SET graph.start=NULL WHERE graph.id=id;
     UPDATE graph SET graph.finish=NULL WHERE graph.id=id;
     UPDATE graph SET graph.data_count=data_count WHERE graph.id=id;
+END$$
+
+CREATE PROCEDURE idb.attach_label(graph_id INTEGER, label_id INTEGER)
+BEGIN
+    INSERT INTO connects VALUES(graph_id, label_id);
+END$$
+
+CREATE PROCEDURE idb.detach_label(graph_id INTEGER, label_id INTEGER)
+BEGIN
+    DELETE FROM connects WHERE connects.graph_id=graph_id AND connects.label_id=label_id;
 END$$
 
 DELIMITER ;
