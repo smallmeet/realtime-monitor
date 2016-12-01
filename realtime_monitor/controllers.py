@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from realtime_monitor.models import *
 import realtime_monitor.json as json
 
@@ -48,6 +48,41 @@ def deleteGraph(graphId):
     graph.delete(graphId)
     graph.close()
     return 'delete'
+
+@graphPages.route('/toggle/<int:graphId>')
+def toggleGraph(graphId):
+    graph = Graph(config)
+    graph.toggleGraph(graphId)
+    graph.close()
+    return 'toggle'
+
+@graphPages.route('/order/<int:graphId>/<int:order>')
+def changeOrdering(graphId):
+    graph = Graph(config)
+    graph.changeOrdering(graphId, order)
+    graph.close()
+    return 'order'
+
+@graphPages.route('/set-interval/<int:graphId>', methods=['POST'])
+def setInterval(graphId):
+    graph = Graph(config)
+    graph.setInterval(graphId, request.form['duration'], request.form['start'], request.form['finish'], request.form['data-count'])
+    graph.close()
+    return 'interval'
+
+@graphPages.route('/attach/<int:graphId>/<int:labelId>')
+def attachLabel(graphId, labelId):
+    graph = Graph(config)
+    graph.attachLabel(graphId, labelId)
+    graph.close()
+    return 'attach'
+
+@graphPages.route('/detach/<int:graphId>/<int:labelId>')
+def detachLabel(graphId, labelId):
+    graph = Graph(config)
+    graph.detachLabel(graphId, labelId)
+    graph.close()
+    return 'attach'
 
 @dataPages.route('/insert/<int:deviceId>/<path:dataList>')
 def insert(deviceId, dataList):
