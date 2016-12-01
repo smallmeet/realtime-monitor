@@ -9,6 +9,6 @@ setInterval(function() {
     });
     keys = graphList.getKeys();
     for(i=0; i<keys.length; i++) {
-        graphList.getGraph(keys[i]).drawGraph();
+        graphList.getGraph(keys[i]).draw();
     }
 }, 1000);

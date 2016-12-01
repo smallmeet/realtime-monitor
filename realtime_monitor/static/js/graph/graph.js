@@ -34,7 +34,7 @@ Graph.prototype.loadJS = function() {
     $.getScript(graphList.getJSPath() + 'g' + keys[i] + '.js');
 }
 
-Graph.prototype.drawGraph = function() {
+Graph.prototype.draw = function() {
     console.log("There's no proper function for " + this._graphId);
 }
 
