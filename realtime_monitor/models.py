@@ -23,6 +23,8 @@ class Device(BaseConn):
     def delete(self, deviceId):
         cur = self.cursor()
         cur.execute('CALL delete_device({deviceId})'.format(deviceId=deviceId))
+        self.commit()
+        cur.close()
 
 class Label(BaseConn):
     def __init__(self, config):
@@ -43,6 +45,8 @@ class Label(BaseConn):
     def delete(self, deviceId):
         cur = self.cursor()
         cur.execute('CALL delete_label({labelId})'.format(labelId=labelId))
+        self.commit()
+        cur.close()
 
 class Graph(BaseConn):
     def __init__(self, config):
