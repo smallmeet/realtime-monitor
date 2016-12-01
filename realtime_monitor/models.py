@@ -70,6 +70,36 @@ class Graph(BaseConn):
         self.commit()
         cur.close()
 
+    def toggleGraph(self, graphId):
+        cur = self.cursor()
+        cur.execute('CALL toggle_graph({graphId})'.format(graphId=graphId))
+        self.commit()
+        cur.close()
+
+    def changeOrdering(self, graphId, order):
+        cur = self.cursor()
+        cur.execute('CALL change_ordering({graphId}, {ordering})'.format(graphId=graphId, ordering=order))
+        self.commit()
+        cur.close()
+
+    def setInterval(self, graphId, duration, start, finish, dataCount):
+        cur = self.cursor()
+        cur.execute('CALL set_interval({graphId}, {duration}, \'{start}\', \'{finish}\', {dataCount})'.format(graphId=graphId, duration=duration, start=start, finish=finish, dataCount=dataCount))
+        self.commit()
+        cur.close()
+
+    def attachLabel(self, graphId, labelId):
+        cur = self.cursor()
+        cur.execute('CALL attach_label({graphId}, {labelId})'.format(graphId=graphId, labelId=labelId))
+        self.commit()
+        cur.close()
+
+    def detachLabel(self, graphId, labelId):
+        cur = self.cursor()
+        cur.execute('CALL detach_label({graphId}, {labelId})'.format(graphId=graphId, labelId=labelId))
+        self.commit()
+        cur.close()
+
 class Data(BaseConn):
     def __init__(self, config):
         super().__init__(config)
