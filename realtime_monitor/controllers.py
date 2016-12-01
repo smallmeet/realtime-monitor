@@ -3,6 +3,7 @@ from realtime_monitor.models import *
 import realtime_monitor.json as json
 
 devicePages = Blueprint('device', __name__)
+labelPages = Blueprint('label', __name__)
 graphPages = Blueprint('graph', __name__)
 dataPages = Blueprint('data', __name__)
 config = json.loadJSON(open('config.json').readlines())
@@ -26,6 +27,27 @@ def deleteDevice(deviceId):
     device = Device(config)
     device.delete(deviceId)
     device.close()
+    return 'delete'
+
+@labelPages.route('/create/<int:deviceId>')
+def createLabel(deviceId):
+    label = Label(config)
+    label.create(deviceId)
+    label.close()
+    return 'create'
+
+@labelPages.route('/create/<int:deviceId>/<name>')
+def changeLabelName(labelId, name):
+    label = Label(config)
+    label.changeName(labelId, name)
+    label.close()
+    return 'change'
+
+@labelPages.route('/delete/<int:labelId>')
+def deleteLabel(labelId):
+    label = Label(config)
+    label.delete(labelId)
+    label.close()
     return 'delete'
 
 @graphPages.route('/create')

@@ -8,6 +8,7 @@ app = Flask(__name__)
 config = json.loadJSON(open('config.json', 'r').readlines())
 
 app.register_blueprint(devicePages, url_prefix='/device')
+app.register_blueprint(labelPages, url_prefix='/label')
 app.register_blueprint(graphPages, url_prefix='/graph')
 app.register_blueprint(dataPages, url_prefix='/data')
 
