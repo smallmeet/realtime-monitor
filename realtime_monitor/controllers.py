@@ -8,20 +8,20 @@ config = json.loadJSON(open('config.json').readlines())
 @graphPages.route('/create')
 def createGraph():
     graph = Graph(config)
-    newGraph = graph.create()
+    graph.create()
     graph.close()
-    return json.dict2json(newGraph)
+    return 'create'
 
 @graphPages.route('/change-name/<int:graphId>/<name>')
 def changeGraphName(graphId, name):
     graph = Graph(config)
-    changedGraph = graph.changeName(graphId, name)
+    graph.changeName(graphId, name)
     graph.close()
-    return json.dict2json(changedGraph)
+    return 'change'
 
 @graphPages.route('/delete/<int:graphId>')
 def deleteGraph(graphId):
     graph = Graph(config)
-    deletedGraph = graph.delete(graphId)
+    graph.delete(graphId)
     graph.close()
-    return json.dict2json(deletedGraph)
+    return 'delete'
