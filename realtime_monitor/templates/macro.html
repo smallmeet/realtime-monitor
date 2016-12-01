@@ -1,32 +1,17 @@
-{% macro device(id, name, labels) %}
+{% macro device(id, name) %}
 <li class="device" id="d{{ id }}">
-    <span class="name">{{ name }}</span><span class="device_id">#{{ id }}</span>
-    <ul>
-        {% for l in labels %}
-        <li class="label" id="d{{ id }}-l{{ l[0] }}">{{ l[1] }} <span class="label_id">#{{ l[0] }}</span></li>
-        {% endfor %}
-    </ul>
+    <span class="name">{{ name }}</span><span class="device_id">#{{ id }}</span><button onclick="Config.config($(this).parent().attr('id'));">Config</button>
 </li>
 {% endmacro %}
 
-{% macro graph(id, name, activated, labels) %}
+{% macro graph(id, name, activated) %}
 {% if activated == 1 %}
 <li class="graph on" id="g{{ id }}">
-    <span class="name" onclick="Views.changeGraphName($(this).parent().attr('id'))">{{ name }}</span><span class="graph-id">#{{ id }}</span><button onclick="Views.deleteGraph($(this).parent().attr('id'))">Delete</button>
-    <ul>
-        {% for l in labels %}
-        <li class="label" id="g{{ id }}-l{{ l[0] }}">{{ l[1] }} <span class="label-id">#{{ l[0] }}</span></li>
-        {% endfor %}
-    </ul>
+    <span class="name">{{ name }}</span><span class="graph-id">#{{ id }}</span><button onclick="Config.config($(this).parent().attr('id'));">Config</button>
 </li>
 {% else %}
 <li class="graph off" id="g{{ id }}">
-    <span class="name">{{ name }}</span><span class="graph-id">#{{ id }}</span><button onclick="Views.deleteGraph($(this).parent().attr('id'))">Delete</button>
-    <ul>
-        {% for l in labels %}
-        <li class="label" id="g{{ id }}-l{{ l[0] }}">{{ l[1] }} <span class="label-id">#{{ l[0] }}</span></li>
-        {% endfor %}
-    </ul>
+    <span class="name">{{ name }}</span><span class="graph-id">#{{ id }}</span><button onclick="Config.config($(this).parent().attr('id'));">Config</button>
 </li>
 {% endif %}
 {% endmacro %}
