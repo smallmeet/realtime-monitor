@@ -1,10 +1,10 @@
-callAJAX('/json', function(result) {
+callAJAX('/data/get', function(result) {
     graphList.initList(JSON.parse(result));
 });
 
 setInterval(function() {
     var i;
-    callAJAX('/json', function(result) {
+    callAJAX('/data/get', function(result) {
         graphList.updateList(JSON.parse(result));
     });
     keys = graphList.getKeys();

@@ -69,3 +69,52 @@ class Graph(BaseConn):
         cur.execute('CALL delete_graph({graphId})'.format(graphId=graphId))
         self.commit()
         cur.close()
+
+class Data(BaseConn):
+    def __init__(self, config):
+        super().__init__(config)
+
+    @staticmethod
+    def isFloat(num):
+        try:
+            float(num)
+            return True
+        except ValueError:
+            return False
+
+    @staticmethod
+    def isValid(data):
+        if len(data)%2 != 0:
+            return False
+        for i in range(0, len(data), 2):
+            if not Data.isFloat(data[i+1]):
+                return False
+        return True
+
+    def getCurrentTime(self):
+        cur = self.cursor()
+        cur.execute('SELECT NOW(6)')
+        now = str(cur.fetchone()[0])
+        cur.close()
+        return now
+
+    def insert(self, labelId, value, updated):
+        cur = self.cursor()
+        cur.execute('CALL insert_data({labelId}, {value}, \'{updated}\')'.format(labelId=labelId, value=value, updated=updated))
+        self.commit()
+        cur.close()
+
+    def getData(self, graphId):
+        cur = self.cursor()
+        result = {}
+        cur.execute('CALL get_data({graphId})'.format(graphId=graphId))
+        for row in cur:
+            labelId = 'l' + str(row[0])
+
+            if labelId not in result:
+                result[labelId] = {'value':[], 'updated':[]}
+            result[labelId]['value'].append(row[1])
+            result[labelId]['updated'].append(str(row[2]))
+        cur.close()
+
+        return result
