@@ -9,6 +9,7 @@ app = Flask(__name__)
 config = json.loadJSON(open('config.json', 'r').readlines())
 
 app.register_blueprint(graphPages, url_prefix='/graph')
+app.register_blueprint(devicePages, url_prefix='/device')
 
 @app.route('/insert/<int:deviceId>/<path:data>')
 def insert(deviceId, data):
