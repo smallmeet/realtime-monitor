@@ -1,0 +1,11 @@
+{% from 'macro.html' import device, graph %}
+
+{% if target == 'device' %}
+{% for d in devices %}
+{{ device(d[0], d[1]) }}
+{% endfor %}
+{% elif target == 'graph' %}
+{% for g in graphs %}
+{{ graph(g[0], g[1], g[2]) }}
+{% endfor %}
+{% endif %}

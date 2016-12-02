@@ -1,21 +1,59 @@
-var Views = new function() {
-    this.createGraph = function() {
-        callAJAX('/graph/create', function(result) {
-            json = JSON.parse(result);
-            $('#graphs ol').append(Snippets.graph(json.id, json.name, 'graph off'));
+function viewRequest(target, action, params, callback) {
+    var link = '/' + target + '/' + action;
+    var i;
+    for(i=0; i<params.length; i++) {
+        link += '/' + params[i];
+    }
+
+    callAJAX(link, callback);
+}
+
+var Config = new function() {
+    this.close = function() {
+        $('.config').remove();
+        $('.vertical.container').css({'filter':'blur(0px)'});
+    }
+
+    this.getId = function() {
+        return $('.config').attr('id').slice(2);
+    }
+
+    this.apply = function() {
+        id = this.getId();
+    }
+
+    this.delete = function() {
+        id = this.getId();
+        target = id[0];
+        id = id.slice(1);
+        if(target == 'd') {
+            target = 'device';
+        }
+        else if(target == 'g') {
+            target = 'graph';
+        }
+
+        viewRequest(target, 'delete', [id], function(result) {
+            loadList(target);
+            Config.close();
         });
     }
 
-    this.changeGraphName = function(id) {
-        var name = prompt('Enter the new name');
-        callAJAX('/graph/change-name/' + id.slice(1) + '/' + name, function(result) {
-            $('#' + id + ' span.name').text(name);
+    this.config = function(id) {
+        callAJAX('/config/' + id, function(result) {
+            $(result).appendTo('body');
+            $('.vertical.container').css({'filter':'blur(2px)'});
         });
     }
+}
 
-    this.deleteGraph = function(id) {
-        callAJAX('/graph/delete/' + id.slice(1), function(result) {
-            $('#' + id).remove();
-        });
-    }
+function loadList(target) {
+    callAJAX('/load-list/' + target, function(result) {
+        if(target == 'device') {
+            $('#devices ul').html(result);
+        }
+        else if(target == 'graph') {
+            $('#graphs ol').html(result);
+        }
+    });
 }

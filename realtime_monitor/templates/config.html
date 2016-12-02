@@ -1,0 +1,38 @@
+<div class="config" id="c-{{ target }}">
+    {% if target[0] == 'd' %}
+    <h3 class="title">Device Setting</h3><span class="id">#{{ target[1:] }}</span>
+    {% elif target[0] == 'g' %}
+    <h3 class="title">Graph Setting</h3><span class="id">#{{ target[1:] }}</span>
+    {% endif %}
+    <hr class="hr">
+    <div class="form">
+        <div>
+            <h4>Name</h4>
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" value="{{ info[0] }}">
+        </div>
+        {% if target[0] == 'g' %}
+        <div>
+            <h4>Order</h4>
+            <label for="order">Order</label>
+            <input type="number" name="order" id="order" min="0" max="{{ maximum }}" value="{{ info[1] }}">
+        </div>
+        <div>
+            <h4>Data Load Policy</h4>
+            <input type="radio" name="policy" id="duration" {% if policy == 'd' %}checked{% endif %}>
+            <label for="duration">Duration</label>
+            <input type="radio" name="policy" id="start-and-finish" {% if policy == 'sf' %}checked{% endif %}>
+            <label for="start-and-finish">Start and Finish</label>
+            <input type="radio" name="policy" id="data-count" {% if policy == 'n' %}checked{% endif %}>
+            <label for="data-count">Data Count</label>
+            <input type="radio" name="policy" id="none" {% if policy == 'x' %}checked{% endif %}>
+            <label for="none">Load Whole</label>
+        </div>
+        {% endif %}
+    </div>
+    <div class="button-group">
+        <button onclick="Config.apply();">Apply</button>
+        <button onclick="Config.delete();">Delete</button>
+        <button onclick="Config.close();">Close</button>
+    </div>
+</div>
