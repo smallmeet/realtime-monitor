@@ -79,7 +79,7 @@ def toggleGraph(graphId):
     return 'toggle'
 
 @graphPages.route('/order/<int:graphId>/<int:order>')
-def changeOrdering(graphId):
+def changeOrdering(graphId, order):
     graph = Graph(config)
     graph.changeOrdering(graphId, order)
     graph.close()

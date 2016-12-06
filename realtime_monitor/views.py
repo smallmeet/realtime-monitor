@@ -44,6 +44,10 @@ def loadConfig(target):
             policy = 'd'
         elif info[3] is not None or info[4] is not None:
             policy = 'sf'
+            if info[3] is not None:
+                info[3] = str(info[3])[:-9]
+            if info[4] is not None:
+                info[4] = str(info[4])[:-9]
         elif info[5] is not None:
             policy = 'n'
         else:

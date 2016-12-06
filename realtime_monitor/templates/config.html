@@ -19,14 +19,20 @@
         </div>
         <div>
             <h4>Data Load Policy</h4>
-            <input type="radio" name="policy" id="duration" {% if policy == 'd' %}checked{% endif %}>
+            <input type="radio" name="policy" id="duration" class="radio" {% if policy == 'd' %}checked{% endif %}>
             <label for="duration">Duration</label>
-            <input type="radio" name="policy" id="start-and-finish" {% if policy == 'sf' %}checked{% endif %}>
+            <input type="radio" name="policy" id="start-and-finish" class="radio" {% if policy == 'sf' %}checked{% endif %}>
             <label for="start-and-finish">Start and Finish</label>
-            <input type="radio" name="policy" id="data-count" {% if policy == 'n' %}checked{% endif %}>
+            <input type="radio" name="policy" id="data-count" class="radio" {% if policy == 'n' %}checked{% endif %}>
             <label for="data-count">Data Count</label>
-            <input type="radio" name="policy" id="none" {% if policy == 'x' %}checked{% endif %}>
+            <input type="radio" name="policy" id="none" class="radio" {% if policy == 'x' %}checked{% endif %}>
             <label for="none">Load Whole</label>
+        </div>
+        <div>
+            <label>Duration <input type="number" name="duration" {% if policy == 'd' %}value="{{ info[2] }}"{% endif %} min="0"></label>
+            <label>Start <input type="date" name="start" {% if policy == 'sf' %}value="{{ info[3] }}"{% endif %}></label>
+            <label>Finish <input type="date" name="finish" {% if policy == 'sf' %}value="{{ info[4] }}"{% endif %}></label>
+            <label>Data Count <input type="number" name="data-count" {% if policy == 'n' %}value="{{ info[5] }}"{% endif %} min="0"></label>
         </div>
         {% endif %}
     </div>
