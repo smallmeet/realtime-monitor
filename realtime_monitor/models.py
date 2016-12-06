@@ -126,7 +126,7 @@ class Data(BaseConn):
         if len(data)%2 != 0:
             return False
         for i in range(0, len(data), 2):
-            if not Data.isFloat(data[i+1]):
+            if not data[i].isdigit() or not Data.isFloat(data[i+1]):
                 return False
         return True
 
