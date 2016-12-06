@@ -1,14 +1,6 @@
 graphList = new function() {
     this._graphs = {};
 
-    this.getCSSPath = function() {
-        return '/static/css/plot/';
-    }
-
-    this.getJSPath = function() {
-        return '/static/js/plot/'
-    }
-
     this.getKeys = function() {
         return Object.keys(this._graphs);
     }
