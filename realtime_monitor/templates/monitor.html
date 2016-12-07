@@ -26,7 +26,7 @@
                             {{ graph(g[0], g[1], g[2]) }}
                             {% endfor %}
         			    </ol>
-                        <button onclick="viewRequest('graph', 'create', [], function(result) { loadList('graph'); });">New Graph</button>
+                        <button onclick="callAJAX('/graph/create', function(result) { loadList('graph'); })">New Graph</button>
         			</div>
         			<div id="devices">
         			    <h3>Devices</h3>
@@ -35,7 +35,7 @@
                             {{ device(d[0], d[1]) }}
                             {% endfor %}
                         </ul>
-                        <button onclick="viewRequest('device', 'create', [], function(result) { loadList('device'); });">New Device</button>
+                        <button onclick="callAJAX('/device/create', function(result) { loadList('device'); })">New Device</button>
         			</div>
         		</nav>
             </div>

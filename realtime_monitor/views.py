@@ -14,12 +14,12 @@ def monitor():
     devices = []
     cur.execute('SELECT device.id, device.name FROM device ORDER BY device.id ASC')
     for row in cur:
-        devices.append([int(row[0]), row[1]])
+        devices.append([row[0], row[1]])
 
     graphs = []
     cur.execute('SELECT graph.id, graph.name, graph.activated FROM graph ORDER BY graph.activated=1 DESC, graph.ordering ASC, graph.id ASC')
     for row in cur:
-        graphs.append([int(row[0]), row[1], row[2]])
+        graphs.append([row[0], row[1], row[2]])
 
     cur.close()
     conn.close()
@@ -67,7 +67,7 @@ def loadList(target):
         devices = []
         cur.execute('SELECT device.id, device.name FROM device ORDER BY device.id ASC')
         for row in cur:
-            devices.append([int(row[0]), row[1]])
+            devices.append([row[0], row[1]])
         cur.close()
         conn.close()
         return render_template('load_list.html', target=target, devices=devices)
@@ -75,7 +75,7 @@ def loadList(target):
         graphs = []
         cur.execute('SELECT graph.id, graph.name, graph.activated FROM graph ORDER BY graph.activated=1 DESC, graph.ordering ASC, graph.id ASC')
         for row in cur:
-            graphs.append([int(row[0]), row[1], row[2]])
+            graphs.append([row[0], row[1], row[2]])
         cur.close()
         conn.close()
         return render_template('load_list.html', target=target, graphs=graphs)

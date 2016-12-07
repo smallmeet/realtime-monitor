@@ -1,17 +1,17 @@
 {% macro device(id, name) %}
 <li class="device" id="d{{ id }}">
-    <span class="name">{{ name }}</span><span class="device_id">#{{ id }}</span><button onclick="Config.config($(this).parent().attr('id'));">Config</button>
+    <span class="name">{{ name }}</span><span class="device_id">#{{ id }}</span><button onclick="Config.open($(this).parent().attr('id'));">Config</button>
 </li>
 {% endmacro %}
 
 {% macro graph(id, name, activated) %}
 {% if activated == 1 %}
 <li class="graph on" id="g{{ id }}">
-    <span class="name">{{ name }}</span><span class="graph-id">#{{ id }}</span><button onclick="Config.config($(this).parent().attr('id'));">Config</button>
+    <span class="name">{{ name }}</span><span class="graph-id">#{{ id }}</span><button onclick="Config.open($(this).parent().attr('id'));">Config</button>
 </li>
 {% else %}
 <li class="graph off" id="g{{ id }}">
-    <span class="name">{{ name }}</span><span class="graph-id">#{{ id }}</span><button onclick="Config.config($(this).parent().attr('id'));">Config</button>
+    <span class="name">{{ name }}</span><span class="graph-id">#{{ id }}</span><button onclick="Config.open($(this).parent().attr('id'));">Config</button>
 </li>
 {% endif %}
 {% endmacro %}
