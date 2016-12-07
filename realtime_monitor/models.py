@@ -42,7 +42,7 @@ class Label(BaseConn):
         self.commit()
         cur.close()
 
-    def delete(self, deviceId):
+    def delete(self, labelId):
         cur = self.cursor()
         cur.execute('CALL delete_label({labelId})'.format(labelId=labelId))
         self.commit()

@@ -36,7 +36,7 @@ def createLabel(deviceId):
     label.close()
     return 'create'
 
-@labelPages.route('/create/<int:deviceId>/<name>')
+@labelPages.route('/change-name/<int:labelId>/<name>')
 def changeLabelName(labelId, name):
     label = Label(config)
     label.changeName(labelId, name)
