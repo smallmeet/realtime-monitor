@@ -9,7 +9,7 @@
 {% macro graph(id, name, activated) %}
 {% if activated == 1 %}
 <li class="graph on" id="g{{ id }}">
-    <button onclick="Config.toggle('g{{ id }}')">Toggle</button>
+    <button onclick="Config.deactivate('g{{ id }}')">Toggle</button>
     <span class="name">{{ name }}</span>
     <span class="graph-id">#{{ id }}</span>
     <button onclick="Config.open('g{{ id }}')">Config</button>
@@ -17,7 +17,7 @@
 </li>
 {% else %}
 <li class="graph off" id="g{{ id }}">
-    <button onclick="Config.toggle('g{{ id }}')">Toggle</button>
+    <button onclick="Config.activate('g{{ id }}')">Toggle</button>
     <span class="name">{{ name }}</span>
     <span class="graph-id">#{{ id }}</span>
     <button onclick="Config.delete('g{{ id }}')">Delete</button>

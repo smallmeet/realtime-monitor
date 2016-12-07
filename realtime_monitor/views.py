@@ -79,3 +79,16 @@ def loadList(target):
         cur.close()
         conn.close()
         return render_template('load_list.html', target=target, graphs=graphs)
+
+@app.route('/load-plots')
+def loadPlots():
+    conn = BaseConn(config)
+    cur = conn.cursor()
+
+    graphs = []
+    cur.execute('SELECT graph.id, graph.name FROM graph WHERE graph.activated=1 ORDER BY graph.ordering ASC, graph.id ASC')
+    for row in cur:
+        graphs.append(row[0])
+    cur.close()
+    conn.close()
+    return render_template('load_plots.html', graphs=graphs)

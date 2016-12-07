@@ -41,13 +41,24 @@ var Config = new function() {
             callAJAX('/graph/change-name/' + id + '/' + name, function(result) {});
             callAJAX('/graph/order/' + id + '/' + $('input[name=order]').val(), function(result) {
                 loadList('graph');
+                loadPlots();
             });
         }
     }
 
-    this.toggle = function(id) {
+    this.activate = function(id) {
         callAJAX('/graph/toggle/' + id.slice(1), function(result) {
             loadList('graph');
+            loadPlots();
+            graphList.insertGraph(id.slice(1));
+        })
+    }
+
+    this.deactivate = function(id) {
+        callAJAX('/graph/toggle/' + id.slice(1), function(result) {
+            loadList('graph');
+            loadPlots();
+            graphList.removeGraph(id.slice(1));
         })
     }
 
@@ -62,7 +73,9 @@ var Config = new function() {
         }
         else if(target == 'g') {
             callAJAX('/graph/delete/' + id, function(result) {
+                graphList.removeGraph(id);
                 loadList('graph');
+                loadPlots();
                 Config.close();
             });
         }
@@ -91,5 +104,11 @@ function loadList(target) {
         else if(target == 'graph') {
             $('#graphs ol').html(result);
         }
+    });
+}
+
+function loadPlots() {
+    callAJAX('/load-plots', function(result) {
+        $('#dashboard').html(result);
     });
 }
