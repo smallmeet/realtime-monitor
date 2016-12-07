@@ -84,15 +84,6 @@ class Graph(BaseConn):
 
     def setInterval(self, graphId, duration, start, finish, dataCount):
         cur = self.cursor()
-        if len(start)==0:
-            start = 'NULL'
-        if len(finish)==0:
-            finish = 'NULL'
-
-        if start != 'NULL':
-            start = '\'' + start + '\''
-        if finish != 'NULL':
-            finish = '\'' + finish + '\''
         cur.execute('CALL set_interval({graphId}, {duration}, {start}, {finish}, {dataCount})'.format(graphId=graphId, duration=duration, start=start, finish=finish, dataCount=dataCount))
         self.commit()
         cur.close()
