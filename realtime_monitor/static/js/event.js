@@ -1,4 +1,15 @@
 var Config = new function() {
+    this.open = function(id) {
+        callAJAX('/config/' + id, function(result) {
+            $('body').append(result);
+            Config.radioUpdate();
+            $('.radio').change(function() {
+                Config.radioUpdate();
+            });
+            $('.vertical.container').css({'filter':'blur(2px)'});
+        });
+    }
+
     this.close = function() {
         $('.config').remove();
         $('.vertical.container').css({'filter':'blur(0px)'});
@@ -34,6 +45,12 @@ var Config = new function() {
         }
     }
 
+    this.toggle = function(id) {
+        callAJAX('/graph/toggle/' + id.slice(1), function(result) {
+            loadList('graph');
+        })
+    }
+
     this.delete = function(id) {
         var target = id[0];
         id = id.slice(1);
@@ -51,17 +68,6 @@ var Config = new function() {
         }
     }
 
-    this.open = function(id) {
-        callAJAX('/config/' + id, function(result) {
-            $('body').append(result);
-            Config.radioUpdate();
-            $('.radio').change(function() {
-                Config.radioUpdate();
-            });
-            $('.vertical.container').css({'filter':'blur(2px)'});
-        });
-    }
-
     this.radioUpdate = function() {
         $('.form div:last-child').children().css('display', 'none');
         if($('#duration').is(':checked')) {
@@ -74,12 +80,6 @@ var Config = new function() {
         else if($('#data-count').is(':checked')) {
             $('.form div:last-child label:nth-child(4)').css('display', 'block');
         }
-    }
-
-    this.toggle = function(id) {
-        callAJAX('/graph/toggle/' + id.slice(1), function(result) {
-            loadList('graph');
-        })
     }
 }
 
