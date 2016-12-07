@@ -32,14 +32,18 @@ def loadConfig(target):
     conn = BaseConn(config)
     cur = conn.cursor()
     info = []
+    labels = []
+    maximum = 0
+    policy = ''
 
     if table == 'd':
+        labelQuery = 'SELECT label.id, label.name FROM label WHERE label.device_id={targetId}'.format(targetId=targetId)
         cur.execute('SELECT device.name FROM device WHERE device.id={targetId}'.format(targetId=targetId))
         info = list(cur.fetchone())
     elif table == 'g':
+        labelQuery = 'SELECT label.id, label.name FROM label WHERE label.id in (SELECT connects.label_id FROM connects WHERE connects.graph_id={targetId})'.format(targetId=targetId)
         cur.execute('SELECT graph.name, graph.ordering, graph.duration, graph.start, graph.finish, graph.data_count FROM graph WHERE graph.id={targetId}'.format(targetId=targetId))
         info = list(cur.fetchone())
-        policy = ''
         if info[2] is not None:
             policy = 'd'
         elif info[3] is not None or info[4] is not None:
@@ -55,9 +59,13 @@ def loadConfig(target):
         cur.execute('SELECT count(graph.activated) FROM graph WHERE graph.activated=1')
         maximum = cur.fetchone()[0] - 1
 
+    cur.execute(labelQuery)
+    for row in cur:
+        labels.append([row[0], row[1]])
+
     cur.close()
     conn.close()
-    return render_template('config.html', target=target, info=info, maximum=maximum, policy=policy)
+    return render_template('config.html', target=target, info=info, maximum=maximum, policy=policy, labels=labels)
 
 @app.route('/load-list/<target>')
 def loadList(target):

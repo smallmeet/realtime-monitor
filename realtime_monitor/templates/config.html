@@ -33,6 +33,31 @@
             <label>Data Count <input type="number" name="data-count" {% if policy == 'n' %}value="{{ info[5] }}"{% endif %} min="0"></label>
         </div>
         {% endif %}
+        <div>
+            <h4>Labels</h4>
+            <ul>
+                {% if target[0] == 'd' %}
+                {% for l in labels %}
+                <li id="l{{ l[0] }}">
+                    <span class="label-name">{{ l[1] }}</span>
+                    <span class="label-id">#{{ l[0] }}</span>
+                    <button onclick="Config.renameLabel('{{ l[0] }}')">Rename</button>
+                    <button onclick="Config.deleteLabel('{{ l[0] }}')">Delete</button>
+                </li>
+                {% endfor %}
+                <button onclick="Config.createLabel('{{ target[1:] }}')">New Label</button>
+                {% elif target[0] == 'g' %}
+                {% for l in labels %}
+                <li id="l{{ l[0] }}">
+                    <span class="label-name">{{ l[1] }}</span>
+                    <span class="label-id">#{{ l[0] }}</span>
+                    <button onclick="Config.detachLabel({{ target[1:] }}, {{ l[0] }})">Detach</button>
+                </li>
+                {% endfor %}
+                <button onclick="Config.attachLabel({{ target[1:] }})">Attach Label</button>
+                {% endif %}
+            </ul>
+        </div>
     </div>
     <div class="button-group">
         <button onclick="Config.apply('{{ target }}')">Apply</button>

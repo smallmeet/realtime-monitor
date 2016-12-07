@@ -82,17 +82,56 @@ var Config = new function() {
     }
 
     this.radioUpdate = function() {
-        $('.form div:last-child').children().css('display', 'none');
+        $('.form div:nth-child(4)').children().css('display', 'none');
         if($('#duration').is(':checked')) {
-            $('.form div:last-child label:nth-child(1)').css('display', 'block');
+            $('.form div:nth-child(4) label:nth-child(1)').css('display', 'block');
         }
         else if($('#start-and-finish').is(':checked')) {
-            $('.form div:last-child label:nth-child(2)').css('display', 'block');
-            $('.form div:last-child label:nth-child(3)').css('display', 'block');
+            $('.form div:nth-child(4) label:nth-child(2)').css('display', 'block');
+            $('.form div:nth-child(4) label:nth-child(3)').css('display', 'block');
         }
         else if($('#data-count').is(':checked')) {
-            $('.form div:last-child label:nth-child(4)').css('display', 'block');
+            $('.form div:nth-child(4) label:nth-child(4)').css('display', 'block');
         }
+    }
+
+    this.reopen = function() {
+        var id = $('.config h3').text()[0].toLowerCase() + $('.config .id').text().slice(1);
+        this.apply(id);
+        this.close();
+        this.open(id);
+    }
+
+    this.createLabel = function(deviceId) {
+        callAJAX('/label/create/' + deviceId, function(result) {
+            Config.reopen();
+        });
+    }
+
+    this.deleteLabel = function(id) {
+        callAJAX('/label/delete/' + id, function(result) {
+            Config.reopen();
+        });
+    }
+
+    this.attachLabel = function(graphId) {
+        id = prompt('Label ID', '');
+        callAJAX('/graph/attach/' + graphId + '/' + id, function(result) {
+            Config.reopen();
+        });
+    }
+
+    this.detachLabel = function(graphId, labelId) {
+        callAJAX('/graph/detach/' + graphId + '/' + labelId, function(result) {
+            Config.reopen();
+        });
+    }
+
+    this.renameLabel = function(id) {
+        name = prompt('Name', '');
+        callAJAX('/label/change-name/' + id + '/' + name, function(result) {
+            Config.reopen();
+        })
     }
 }
 
