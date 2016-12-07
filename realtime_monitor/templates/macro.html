@@ -1,17 +1,26 @@
 {% macro device(id, name) %}
 <li class="device" id="d{{ id }}">
-    <span class="name">{{ name }}</span><span class="device_id">#{{ id }}</span><button onclick="Config.open($(this).parent().attr('id'));">Config</button>
+    <span class="name">{{ name }}</span><span class="device_id">#{{ id }}</span>
+    <button onclick="Config.open('d{{ id }}')">Config</button>
+    <button onclick="Config.delete('d{{ id }}')">Delete</button>
 </li>
 {% endmacro %}
 
 {% macro graph(id, name, activated) %}
 {% if activated == 1 %}
 <li class="graph on" id="g{{ id }}">
-    <span class="name">{{ name }}</span><span class="graph-id">#{{ id }}</span><button onclick="Config.open($(this).parent().attr('id'));">Config</button>
+    <button onclick="Config.toggle('g{{ id }}')">Toggle</button>
+    <span class="name">{{ name }}</span>
+    <span class="graph-id">#{{ id }}</span>
+    <button onclick="Config.open('g{{ id }}')">Config</button>
+    <button onclick="Config.delete('g{{ id }}')">Delete</button>
 </li>
 {% else %}
 <li class="graph off" id="g{{ id }}">
-    <span class="name">{{ name }}</span><span class="graph-id">#{{ id }}</span><button onclick="Config.open($(this).parent().attr('id'));">Config</button>
+    <button onclick="Config.toggle('g{{ id }}')">Toggle</button>
+    <span class="name">{{ name }}</span>
+    <span class="graph-id">#{{ id }}</span>
+    <button onclick="Config.delete('g{{ id }}')">Delete</button>
 </li>
 {% endif %}
 {% endmacro %}

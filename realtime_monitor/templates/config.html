@@ -1,21 +1,19 @@
-<div class="config" id="c-{{ target }}">
+<div class="config">
     {% if target[0] == 'd' %}
-    <h3 class="title">Device Setting</h3><span class="id">#{{ target[1:] }}</span>
+    <h3 class="title">Device</h3><span class="id">#{{ target[1:] }}</span>
     {% elif target[0] == 'g' %}
-    <h3 class="title">Graph Setting</h3><span class="id">#{{ target[1:] }}</span>
+    <h3 class="title">Graph</h3><span class="id">#{{ target[1:] }}</span>
     {% endif %}
     <hr class="hr">
     <div class="form">
         <div>
             <h4>Name</h4>
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" value="{{ info[0] }}">
+            <input type="text" name="name" value="{{ info[0] }}">
         </div>
         {% if target[0] == 'g' %}
         <div>
             <h4>Order</h4>
-            <label for="order">Order</label>
-            <input type="number" name="order" id="order" min="0" max="{{ maximum }}" value="{{ info[1] }}">
+            <input type="number" name="order" min="0" max="{{ maximum }}" value="{{ info[1] }}">
         </div>
         <div>
             <h4>Data Load Policy</h4>
@@ -37,8 +35,8 @@
         {% endif %}
     </div>
     <div class="button-group">
-        <button onclick="Config.apply();">Apply</button>
-        <button onclick="Config.delete();">Delete</button>
-        <button onclick="Config.close();">Close</button>
+        <button onclick="Config.apply('{{ target }}')">Apply</button>
+        <button onclick="Config.delete('{{ target }}')">Delete</button>
+        <button onclick="Config.close()">Close</button>
     </div>
 </div>

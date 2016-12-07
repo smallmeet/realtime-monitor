@@ -4,16 +4,11 @@ var Config = new function() {
         $('.vertical.container').css({'filter':'blur(0px)'});
     }
 
-    this.getId = function() {
-        return $('.config').attr('id').slice(2);
-    }
-
-    this.apply = function() {
-        var id = this.getId();
+    this.apply = function(id) {
         var target = id[0];
         id = id.slice(1);
 
-        var name = $('#name').val();
+        var name = $('input[name=name]').val();
 
         if(target == 'd') {
             callAJAX('/device/change-name/' + id + '/' + name, function(result) {
@@ -21,27 +16,25 @@ var Config = new function() {
             });
         }
         else if(target == 'g') {
-            if($('#duration').is(':checked')) {
-                $.post('/graph/set-interval/' + id, {'duration': $('input[name=duration]').val(), 'start': 'NULL', 'finish': 'NULL', 'data-count': 'NULL'});
-            }
-            else if($('#start-and-finish').is(':checked')) {
-                $.post('/graph/set-interval/' + id, {'duration': 'NULL', 'start': $('input[name=start]').val(), 'finish': $('input[name=finish]').val(), 'data-count': 'NULL'});
-            }
-            else if($('#data-count').is(':checked')) {
-                $.post('/graph/set-interval/' + id, {'duration': 'NULL', 'start': 'NULL', 'finish': 'NULL', 'data-count': $('input[name=data-count]').val()});
-            }
-            else if($('#none').is(':checked')) {
-                $.post('/graph/set-interval/' + id, {'duration': 'NULL', 'start': 'NULL', 'finish': 'NULL', 'data-count': 'NULL'});
-            }
+            var content;
+            if($('#duration').is(':checked'))
+                content = {'duration': $('input[name=duration]').val(), 'start': 'NULL', 'finish': 'NULL', 'data-count': 'NULL'};
+            else if($('#start-and-finish').is(':checked'))
+                content = {'duration': 'NULL', 'start': $('input[name=start]').val(), 'finish': $('input[name=finish]').val(), 'data-count': 'NULL'};
+            else if($('#data-count').is(':checked'))
+                content = {'duration': 'NULL', 'start': 'NULL', 'finish': 'NULL', 'data-count': $('input[name=data-count]').val()};
+            else if($('#none').is(':checked'))
+                content = {'duration': 'NULL', 'start': 'NULL', 'finish': 'NULL', 'data-count': 'NULL'};
+
+            $.post('/graph/set-interval/' + id, content);
             callAJAX('/graph/change-name/' + id + '/' + name, function(result) {});
-            callAJAX('/graph/order/' + id + '/' + $('#order').val(), function(result) {
+            callAJAX('/graph/order/' + id + '/' + $('input[name=order]').val(), function(result) {
                 loadList('graph');
             });
         }
     }
 
-    this.delete = function() {
-        var id = this.getId();
+    this.delete = function(id) {
         var target = id[0];
         id = id.slice(1);
         if(target == 'd') {
@@ -81,6 +74,12 @@ var Config = new function() {
         else if($('#data-count').is(':checked')) {
             $('.form div:last-child label:nth-child(4)').css('display', 'block');
         }
+    }
+
+    this.toggle = function(id) {
+        callAJAX('/graph/toggle/' + id.slice(1), function(result) {
+            loadList('graph');
+        })
     }
 }
 
