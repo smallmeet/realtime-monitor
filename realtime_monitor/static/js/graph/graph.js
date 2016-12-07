@@ -25,16 +25,16 @@ Graph.prototype.loadCSS = function() {
     $('<link>',  {
         rel: 'stylesheet',
         type: 'text/css',
-        href: graphList.getCSSPath() + 'g' + keys[i] + '.css',
+        href: graphList.getCSSPath() + this.getGraphId() + '.css',
         id: this.getCSSId()
     }).appendTo('head');
 }
 
 Graph.prototype.loadJS = function() {
-    $.getScript(graphList.getJSPath() + 'g' + keys[i] + '.js');
+    $.getScript(graphList.getJSPath() + this.getGraphId() + '.js');
 }
 
-Graph.prototype.drawGraph = function() {
+Graph.prototype.draw = function() {
     console.log("There's no proper function for " + this._graphId);
 }
 

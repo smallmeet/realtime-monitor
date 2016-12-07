@@ -1,28 +1,18 @@
 graphList = new function() {
-    this._graphes = {};
-
-    this.getCSSPath = function() {
-        return '/static/css/plot/';
-    }
-
-    this.getJSPath = function() {
-        return '/static/js/plot/'
-    }
+    this._graphs = {};
 
     this.getKeys = function() {
-        return Object.keys(this._graphes);
+        return Object.keys(this._graphs);
     }
 
     this.getGraph = function(graphId) {
-        return this._graphes[graphId];
+        return this._graphs[graphId];
     }
 
     this.initList = function(json) {
         keys = Object.keys(json);
         for(i=0; i<keys.length; i++) {
-            this._graphes['g'+keys[i]] = new Graph(keys[i], json[keys[i]]);
-            this.getGraph('g'+keys[i]).loadCSS();
-            this.getGraph('g'+keys[i]).loadJS();
+            this.insertGraph(keys[i]);
         }
     }
 
@@ -31,5 +21,16 @@ graphList = new function() {
         for(i=0; i<keys.length; i++) {
             this.getGraph('g' + keys[i]).update(json[keys[i]]);
         }
+    }
+
+    this.insertGraph = function(id) {
+        this._graphs['g'+id] = new Graph(id, {});
+        this.getGraph('g'+id).loadCSS();
+        this.getGraph('g'+id).loadJS();
+    }
+
+    this.removeGraph = function(id) {
+        delete this._graphs['g'+id];
+        $('#c'+id).remove();
     }
 }
