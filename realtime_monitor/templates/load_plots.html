@@ -1,0 +1,5 @@
+{% from 'macro.html' import plot %}
+
+{% for p in graphs %}
+{{ plot(p, 1) }}
+{% endfor %}

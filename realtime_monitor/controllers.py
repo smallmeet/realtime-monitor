@@ -36,7 +36,7 @@ def createLabel(deviceId):
     label.close()
     return 'create'
 
-@labelPages.route('/create/<int:deviceId>/<name>')
+@labelPages.route('/change-name/<int:labelId>/<name>')
 def changeLabelName(labelId, name):
     label = Label(config)
     label.changeName(labelId, name)
@@ -88,7 +88,20 @@ def changeOrdering(graphId, order):
 @graphPages.route('/set-interval/<int:graphId>', methods=['POST'])
 def setInterval(graphId):
     graph = Graph(config)
-    graph.setInterval(graphId, request.form['duration'], request.form['start'], request.form['finish'], request.form['data-count'])
+    start = request.form['start']
+    finish = request.form['finish']
+
+    if len(start)==0:
+        start = 'NULL'
+    if len(finish)==0:
+        finish = 'NULL'
+
+    if start != 'NULL':
+        start = '\'' + start + '\''
+    if finish != 'NULL':
+        finish = '\'' + finish + '\''
+
+    graph.setInterval(graphId, request.form['duration'], start, finish, request.form['data-count'])
     graph.close()
     return 'interval'
 

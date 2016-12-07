@@ -25,13 +25,13 @@ Graph.prototype.loadCSS = function() {
     $('<link>',  {
         rel: 'stylesheet',
         type: 'text/css',
-        href: '/static/css/plot/' + this._graphId + '.css',
+        href: graphList.getCSSPath() + this.getGraphId() + '.css',
         id: this.getCSSId()
     }).appendTo('head');
 }
 
 Graph.prototype.loadJS = function() {
-    $.getScript('/static/js/plot/' + this._graphId + '.js');
+    $.getScript(graphList.getJSPath() + this.getGraphId() + '.js');
 }
 
 Graph.prototype.draw = function() {
