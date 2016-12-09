@@ -1,4 +1,4 @@
-from flask import Blueprint, request, abort
+from flask import Blueprint, request
 from realtime_monitor.models import *
 import realtime_monitor.json as json
 
@@ -118,24 +118,6 @@ def detachLabel(graphId, labelId):
     graph.detachLabel(graphId, labelId)
     graph.close()
     return 'attach'
-
-@dataPages.route('/insert/<int:deviceId>/<path:dataList>')
-def insert(deviceId, dataList):
-    dataList = dataList.split('/')
-    if not Data.isValid(dataList):
-        abort(404)
-    data = Data(config)
-    pair = []
-    for i in range(len(dataList)//2):
-        pair.append([dataList[2*i], dataList[2*i+1]])
-    now = data.getCurrentTime()
-    for i in range(len(pair)):
-        try:
-            data.insert(pair[i][0], pair[i][1], now)
-        except:
-            abort(404)
-    data.close()
-    return 'insert'
 
 @dataPages.route('/get')
 def getData():
