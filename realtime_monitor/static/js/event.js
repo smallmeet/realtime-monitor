@@ -2,9 +2,9 @@ var Config = new function() {
     this.open = function(id) {
         callAJAX('/config/' + id, function(result) {
             $('body').append(result);
-            Config.radioUpdate();
-            $('.radio').change(function() {
-                Config.radioUpdate();
+            Config.selectUpdate();
+            $('select').change(function() {
+                Config.selectUpdate();
             });
             $('.vertical.container').css({'filter':'blur(2px)'});
         });
@@ -28,14 +28,20 @@ var Config = new function() {
         }
         else if(target == 'g') {
             var content;
-            if($('#duration').is(':checked'))
-                content = {'duration': $('input[name=duration]').val(), 'start': 'NULL', 'finish': 'NULL', 'data-count': 'NULL'};
-            else if($('#start-and-finish').is(':checked'))
-                content = {'duration': 'NULL', 'start': $('input[name=start]').val(), 'finish': $('input[name=finish]').val(), 'data-count': 'NULL'};
-            else if($('#data-count').is(':checked'))
-                content = {'duration': 'NULL', 'start': 'NULL', 'finish': 'NULL', 'data-count': $('input[name=data-count]').val()};
-            else if($('#none').is(':checked'))
-                content = {'duration': 'NULL', 'start': 'NULL', 'finish': 'NULL', 'data-count': 'NULL'};
+            switch($('select').val()) {
+                case 'duration':
+                    content = {'duration': $('input[name=duration]').val(), 'start': 'NULL', 'finish': 'NULL', 'data-count': 'NULL'};
+                    break;
+                case 'start-and-finish':
+                    content = {'duration': 'NULL', 'start': $('input[name=start]').val(), 'finish': $('input[name=finish]').val(), 'data-count': 'NULL'};
+                    break;
+                case 'data-count':
+                    content = {'duration': 'NULL', 'start': 'NULL', 'finish': 'NULL', 'data-count': $('input[name=data-count]').val()};
+                    break;
+                default:
+                    content = {'duration': 'NULL', 'start': 'NULL', 'finish': 'NULL', 'data-count': 'NULL'};
+                    break;
+            }
 
             $.post('/graph/set-interval/' + id, content);
             callAJAX('/graph/change-name/' + id + '/' + name, function(result) {});
@@ -81,17 +87,21 @@ var Config = new function() {
         }
     }
 
-    this.radioUpdate = function() {
+    this.selectUpdate = function() {
         $('.form div:nth-child(4)').children().css('display', 'none');
-        if($('#duration').is(':checked')) {
-            $('.form div:nth-child(4) label:nth-child(1)').css('display', 'block');
-        }
-        else if($('#start-and-finish').is(':checked')) {
-            $('.form div:nth-child(4) label:nth-child(2)').css('display', 'block');
-            $('.form div:nth-child(4) label:nth-child(3)').css('display', 'block');
-        }
-        else if($('#data-count').is(':checked')) {
-            $('.form div:nth-child(4) label:nth-child(4)').css('display', 'block');
+        switch($('select').val()) {
+            case 'duration':
+                $('.form div:nth-child(4) label:nth-child(1)').css('display', 'block');
+                break;
+            case 'start-and-finish':
+                $('.form div:nth-child(4) label:nth-child(2)').css('display', 'block');
+                $('.form div:nth-child(4) label:nth-child(3)').css('display', 'block');
+                break;
+            case 'data-count':
+                $('.form div:nth-child(4) label:nth-child(4)').css('display', 'block');
+                break;
+            default:
+                break;
         }
     }
 
