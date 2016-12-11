@@ -31,11 +31,17 @@ Graph.prototype.loadCSS = function() {
 }
 
 Graph.prototype.loadJS = function() {
-    $.getScript('/static/js/plot/' + this.getGraphId() + '.js');
+    var id = this.getGraphId();
+    $.getScript('/static/js/plot/' + this.getGraphId() + '.js')
+        .done(function() { graphList.getGraph(id).drawInit(); });
+}
+
+Graph.prototype.drawInit = function() {
+    console.log("There's no proper drawInit function for " + this._graphId);
 }
 
 Graph.prototype.draw = function() {
-    console.log("There's no proper function for " + this._graphId);
+    console.log("There's no proper draw function for " + this._graphId);
 }
 
 Graph.prototype.update = function(data) {
