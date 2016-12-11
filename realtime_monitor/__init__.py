@@ -17,3 +17,4 @@ def loadStatic(filename):
     return url_for('static', path=filename)
 
 import realtime_monitor.views
+import realtime_monitor.custom_views
