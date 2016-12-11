@@ -1,47 +1,44 @@
-#include "application.h"
-#include "HttpClient/HttpClient.h"
+#include "MQTT/MQTT.h"
 
-HttpClient http;
+void callback(char* topic, byte* payload, unsigned int length);
 
-http_header_t headers[] = {
-    { "Accept" , "*/*"},
-    { NULL, NULL } // NOTE: Always terminate headers will NULL
-};
+byte server[] = {192, 168, 0, 209};
+MQTT client(server, 4000, callback);
+String send;
+const int LABELS[] = {1, 2, 3, 4, 5};
+float values[5];
 
-http_request_t request;
-http_response_t response;
-
-const int DEVICE = 1;
-const int LABELS[] = {1};
-const int LABEL_COUNT = 1;
-float values[LABEL_COUNT];
+void callback(char* topic, byte* payload, unsigned int length) {
+}
 
 void setup() {
-    Serial.begin(9600);
-    request.hostname = "192.168.0.43";
+    client.connect(System.deviceID());
 }
 
 void loop() {
-    values[0] = analogRead(A0);
+    for(int j=0; j<10; j++) {
+        values[0] = j*0.4;
+        values[1] = j*0.3;
+        values[2] = j*0.03;
+        values[3] = j*0.04;
+        values[4] = 1 - values[2] - values[3];
 
-    request.port = 3000;
-    request.path = "/insert/";
-    request.path += DEVICE;
-    request.path += '/';
-    for(int i=0; i<LABEL_COUNT; i++) {
-        request.path += LABELS[i];
-        request.path += '/';
-        request.path += String(values[i]);
+        send = "";
+        send += '[';
+        for(int i=0; i<5; i++) {
+            send += '{';
+            send += "\'labelId\':";
+            send += LABELS[i];
+            send += ",\'value\':";
+            send += String(values[i]);
+            send += "},";
+        }
+        send += ']';
+
+        if (client.isConnected()) {
+            client.publish("data/insert", send);
+            //client.subscribe("###","###");
+            delay(200);
+        }
     }
-
-    // The library also supports sending a body with your request:
-    //request.body = "{\"key\":\"value\"}";
-
-    // Get request
-    http.get(request, response, headers);
-    Serial.print("Application>\tResponse status: ");
-    Serial.println(response.status);
-
-    Serial.print("Application>\tHTTP Response Body: ");
-    Serial.println(response.body);
 }

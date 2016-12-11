@@ -17,14 +17,12 @@
         </div>
         <div>
             <h4>Data Load Policy</h4>
-            <input type="radio" name="policy" id="duration" class="radio" {% if policy == 'd' %}checked{% endif %}>
-            <label for="duration">Duration</label>
-            <input type="radio" name="policy" id="start-and-finish" class="radio" {% if policy == 'sf' %}checked{% endif %}>
-            <label for="start-and-finish">Start and Finish</label>
-            <input type="radio" name="policy" id="data-count" class="radio" {% if policy == 'n' %}checked{% endif %}>
-            <label for="data-count">Data Count</label>
-            <input type="radio" name="policy" id="none" class="radio" {% if policy == 'x' %}checked{% endif %}>
-            <label for="none">Load Whole</label>
+            <select name="policy">
+                <option value="duration" {% if policy == 'd' %}selected{% endif %}>Duration</option>
+                <option value="start-and-finish" {% if policy == 'sf' %}selected{% endif %}>Start and Finish</option>
+                <option value="data-count" {% if policy == 'n' %}selected{% endif %}>Data Count</option>
+                <option value="none" {% if policy == 'x' %}selected{% endif %}>Load Whole</option>
+            </select>
         </div>
         <div>
             <label>Duration <input type="number" name="duration" {% if policy == 'd' %}value="{{ info[2] }}"{% endif %} min="0"></label>
