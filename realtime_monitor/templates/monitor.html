@@ -25,8 +25,8 @@
                             {% for g in graphs %}
                             {{ graph(g[0], g[1], g[2]) }}
                             {% endfor %}
+                            <button onclick="callAJAX('/graph/create', function(result) { loadList('graph'); })">New Graph</button>
         			    </ol>
-                        <button onclick="callAJAX('/graph/create', function(result) { loadList('graph'); })">New Graph</button>
         			</div>
         			<div id="devices">
         			    <h3>Devices</h3>
@@ -34,8 +34,8 @@
                             {% for d in devices %}
                             {{ device(d[0], d[1]) }}
                             {% endfor %}
+                            <button onclick="callAJAX('/device/create', function(result) { loadList('device'); })">New Device</button>
                         </ul>
-                        <button onclick="callAJAX('/device/create', function(result) { loadList('device'); })">New Device</button>
         			</div>
         		</nav>
             </div>

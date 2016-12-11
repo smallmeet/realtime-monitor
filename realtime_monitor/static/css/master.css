@@ -1,0 +1,72 @@
+.container {
+    display: flex;
+}
+
+.horizontal {
+    flex-direction: row;
+}
+
+.vertical {
+    flex-direction: column;
+}
+
+header h1 {
+    text-align: center;
+}
+
+#dashboard {
+    flex: 4;
+}
+
+div[id^=p] {
+    display: inline-block;
+    margin: 20px;
+}
+
+#panel {
+    flex: 1;
+    background-color: #f3f3f3;
+    padding: 20px;
+    height: 80vh;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.config {
+    background-color: white;
+    border: 1px solid yellowgreen;
+    border-radius: 10px;
+
+    padding: 10px;
+
+    position: fixed;
+    z-index: 1;
+    top: 25%;
+    left: 25%;
+}
+
+.config .title {
+    display: inline;
+}
+
+.config .form {
+    width: 50vw;
+    height: 50vh;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+}
+
+button {
+    background-color: yellowgreen;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 3px;
+}
+
+ul, ol {
+    list-style-type: none;
+}
