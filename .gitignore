@@ -4,4 +4,4 @@ config.json
 realtime_monitor/static/js/plot/g*.js
 realtime_monitor/static/css/plot/g*.css
 /_book
-realtime_monitor/files
+realtime_monitor/static/files
