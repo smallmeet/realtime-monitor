@@ -10,12 +10,24 @@
     flex-direction: column;
 }
 
+header {
+    padding-left: 17px;
+}
+
 header h1 {
-    text-align: center;
+    margin-top: 10px;
 }
 
 #dashboard {
-    flex: 4;
+    flex: 5;
+}
+
+span.graph-id {
+    color: grey;
+}
+
+span.device-id {
+    color: grey;
 }
 
 div[id^=p] {
@@ -25,10 +37,23 @@ div[id^=p] {
 
 #panel {
     flex: 1;
-    background-color: #f3f3f3;
-    padding: 20px;
-    height: 80vh;
+    background-color: #e3e3e3;
+    padding: 10px;
     margin: 20px;
+    border-radius: 10px;
+}
+
+#devices {
+    background-color: #f3f3f3;
+    padding: 10px;
+    margin: 15px;
+    border-radius: 10px;
+}
+
+#graphs {
+    background-color: #f3f3f3;
+    padding: 10px;
+    margin: 15px;
     border-radius: 10px;
 }
 
@@ -69,4 +94,5 @@ button {
 
 ul, ol {
     list-style-type: none;
+    padding: 0;
 }
