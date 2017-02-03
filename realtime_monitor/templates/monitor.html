@@ -11,13 +11,9 @@
         <div class="vertical container">
             <header>
                 <h1>iSystems Lab.Realtime Monitor</h1>
+                <hr>
             </header>
             <div class="horizontal container">
-                <div id="dashboard">
-                    {% for p in graphs %}
-                    {{ plot(p[0], p[2]) }}
-                    {% endfor %}
-                </div>
         		<nav id="panel">
         			<div id="graphs">
         			    <h3>Graphes</h3>
@@ -38,6 +34,11 @@
                         </ul>
         			</div>
         		</nav>
+                <div id="dashboard">
+                    {% for p in graphs %}
+                    {{ plot(p[0], p[1], p[2]) }}
+                    {% endfor %}
+                </div>
             </div>
         </div>
 

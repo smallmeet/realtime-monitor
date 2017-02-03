@@ -1,32 +1,32 @@
 {% macro device(id, name) %}
 <li class="device" id="d{{ id }}">
-    <span class="name">{{ name }}</span><span class="device_id">#{{ id }}</span>
-    <button onclick="Config.open('d{{ id }}')">Config</button>
-    <button onclick="Config.delete('d{{ id }}')">Delete</button>
+    <span class="name">{{ name }}</span> <span class="device-id">#{{ id }}</span>
+    <button onclick="Config.open('d{{ id }}')">C</button>
+    <button onclick="Config.delete('d{{ id }}')">D</button>
 </li>
 {% endmacro %}
 
 {% macro graph(id, name, activated) %}
 {% if activated == 1 %}
 <li class="graph on" id="g{{ id }}">
-    <button onclick="Config.deactivate('g{{ id }}')">Toggle</button>
+    <button onclick="Config.deactivate('g{{ id }}')">T</button>
     <span class="name">{{ name }}</span>
     <span class="graph-id">#{{ id }}</span>
-    <button onclick="Config.open('g{{ id }}')">Config</button>
-    <button onclick="Config.delete('g{{ id }}')">Delete</button>
+    <button onclick="Config.open('g{{ id }}')">C</button>
+    <button onclick="Config.delete('g{{ id }}')">D</button>
 </li>
 {% else %}
 <li class="graph off" id="g{{ id }}">
-    <button onclick="Config.activate('g{{ id }}')">Toggle</button>
+    <button onclick="Config.activate('g{{ id }}')">T</button>
     <span class="name">{{ name }}</span>
     <span class="graph-id">#{{ id }}</span>
-    <button onclick="Config.delete('g{{ id }}')">Delete</button>
+    <button onclick="Config.delete('g{{ id }}')">D</button>
 </li>
 {% endif %}
 {% endmacro %}
 
-{% macro plot(id, activated) %}
+{% macro plot(id, name, activated) %}
 {% if activated == 1 %}
-<div class="plot" id="p{{ id }}"><svg></svg></div>
+<div class="plot" id="p{{ id }}"><h3>{{ name }}</h3><svg></svg></div>
 {% endif %}
 {% endmacro %}
